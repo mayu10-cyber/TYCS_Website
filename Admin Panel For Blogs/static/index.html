@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TYCS Blog Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: rgba(14, 23, 42, 0.7);
+        --muted: #94a3b8;
+        --text: #e8eef7;
+        --primary: #22c55e;
+        --primary-600: #16a34a;
+        --accent: #06b6d4;
+        --danger: #ef4444;
+        --border: #1e293b;
+        --ring: rgba(34, 197, 94, 0.35);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; font-family: Inter, system-ui, Arial, sans-serif; color: var(--text);
+        min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px;
+        background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,0.08), transparent),
+                    radial-gradient(1000px 500px at 90% 20%, rgba(6,182,212,0.08), transparent),
+                    linear-gradient(180deg, #0a0f1a, #0b1220 40%, #070a12);
+      }
+      .shell {
+        width: 100%; max-width: 1080px; background: var(--panel); backdrop-filter: blur(14px);
+        border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
+        box-shadow: 0 20px 80px rgba(0,0,0,0.45);
+      }
+      header {
+        padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;
+        background: linear-gradient(180deg, rgba(30,41,59,0.6), rgba(15,23,42,0.4));
+      }
+      .brand { font-weight: 800; letter-spacing: 0.3px; font-size: 18px; background: linear-gradient(90deg, #22c55e, #06b6d4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .muted { color: var(--muted); font-size: 13px; }
+      main { display: grid; grid-template-columns: 1fr 420px; gap: 24px; padding: 24px; align-items: start; }
+      @media (max-width: 1024px){ main { grid-template-columns: 1fr; } }
+      .card { background: rgba(2, 8, 23, 0.55); border: 1px solid var(--border); border-radius: 14px; padding: 18px 18px 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
+      .card h2 { margin: 0 0 12px; font-size: 18px; font-weight: 700; }
+      label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+      input[type="text"], input[type="date"], textarea {
+        width: 100%; padding: 12px 12px; border-radius: 10px; border: 1px solid var(--border); background: #0b1220; color: var(--text);
+        outline: none; transition: box-shadow 0.2s, border-color 0.2s, transform 0.05s;
+      }
+      input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+        border-color: #1f9d5f;
+        box-shadow: none; /* remove glow */
+      }
+      textarea { min-height: 140px; resize: vertical; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .btns { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+      .btn {
+        padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--text); background: #0b1220;
+        transition: transform 0.05s ease, filter 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+      .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+      .btn.primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #06130b; border-color: #127a37; font-weight: 700; box-shadow: none; }
+      .btn.primary:hover { background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: none; }
+      .btn.accent { background: linear-gradient(135deg, #06b6d4, #22d3ee); color: #021014; border-color: #0ea5b8; font-weight: 700; box-shadow: none; }
+      .btn.ghost { background: rgba(2, 8, 23, 0.35); border: 1px dashed #2b3545; color: var(--muted); }
+      .btn.muted { color: var(--muted); }
+      .btn.danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff5f5; border-color: #7f1d1d; box-shadow: none; }
+      .pill { background: rgba(34,197,94,0.12); color: #86efac; border: 1px solid #166534; padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+      .preview { display: grid; grid-template-columns: 100px 1fr; gap: 12px; align-items: center; }
+      .preview img { width: 100px; height: 70px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 10px 26px rgba(0,0,0,0.2); }
+      .help { font-size: 12px; color: var(--muted); margin-top: 6px; }
+      .log { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); max-height: 200px; overflow: auto; white-space: pre-wrap; background: rgba(2,8,23,0.45); border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
+      .divider { height: 1px; background: linear-gradient(90deg, transparent, #233044, transparent); margin: 16px 0; }
+      .success { color: #86efac; }
+      .error { color: #fecaca; }
+      .small { font-size: 12px; }
+      #blogList { margin-top: 8px; }
+      .list-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; align-items: center; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: rgba(8, 15, 28, 0.5); box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
+      .list-row:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.25); border-color: #2a3a50; }
+      .file-control { display: flex; align-items: center; gap: 10px; }
+      .hidden-file { position: absolute; left: -9999px; width: 0; height: 0; opacity: 0; }
+
+      /* Toast */
+      .toast { position: fixed; right: 20px; bottom: 20px; background: #111827; color: #fff; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
+      .toast.show { opacity: 1; transform: translateY(0); }
+
+      /* Modal */
+      .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: center; justify-content: center; }
+      .modal.show { display: flex; }
+      .modal-card { width: 100%; max-width: 640px; background: #0f172a; color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+      .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <div>
+          <div class="brand">TYCS Blog Admin</div>
+          <div class="muted small">Create standalone blog pages that match your site's current blog style</div>
+        </div>
+        <span class="pill">Local Admin</span>
+      </header>
+
+      <main>
+        <section class="card" id="createSection">
+          <h2>New Blog</h2>
+          <label>Page Title (browser title)</label>
+          <input id="pageTitle" type="text" placeholder="Why Responsive Web Design Is Essential in 2025" />
+
+          <label>Display Title (H2)</label>
+          <input id="title" type="text" placeholder="10 REASONS WHY RESPONSIVE WEB DESIGN IS IMPORTANT IN 2025" />
+
+          <div class="row">
+            <div>
+              <label>Publish Date</label>
+              <input id="publishDate" type="date" />
+            </div>
+            <div>
+              <label>Back Button Link</label>
+              <input id="backHref" type="text" placeholder="index.html" value="index.html" />
+            </div>
+          </div>
+
+          <label>Paragraphs (one per line)</label>
+          <textarea id="paragraphs" placeholder="Write each paragraph on a new line..."></textarea>
+
+          <div class="divider"></div>
+
+          <h2>Image</h2>
+          <div class="row">
+            <div>
+              <label>Pick from your device</label>
+              <div class="file-control">
+                <input id="file" class="hidden-file" type="file" accept="image/*" />
+                <button type="button" class="btn accent" id="chooseFileBtn">Choose Image</button>
+                <span id="fileName" class="small muted"></span>
+                <button type="button" class="btn ghost" id="clearImageBtn">Remove Image</button>
+              </div>
+            </div>
+            <div>
+              <label>Or paste an image URL</label>
+              <input id="imageUrl" type="text" placeholder="https://... or assets/your-image.png" />
+            </div>
+          </div>
+          <div class="help">If you upload, the file will be saved to your site's <code>assets/</code> and referenced in the blog.</div>
+
+          <div id="preview" class="preview" style="display:none; margin-top:12px;">
+            <img id="previewImg" alt="preview" />
+            <div>
+              <div class="small muted">Using image:</div>
+              <div id="previewPath" class="small" style="word-break: break-all;"></div>
+            </div>
+          </div>
+
+          <div class="btns">
+            <button class="btn primary" id="createBtn">Create Blog</button>
+            <button class="btn muted" id="resetBtn">Reset</button>
+          </div>
+        </section>
+
+        <aside class="card" id="manageSection">
+          <h2>Manage Blogs</h2>
+          <div class="btns" style="margin:8px 0 12px 0;">
+            <button class="btn" id="refreshBtn">Refresh</button>
+          </div>
+          <div id="blogList" class="small" style="display:grid; gap:10px;"></div>
+          <div class="divider" style="margin:16px 0;"></div>
+          <h2>Activity</h2>
+          <div id="status" class="small muted">Idle</div>
+          <div class="divider"></div>
+          <div id="log" class="log"></div>
+        </aside>
+      </main>
+
+      <!-- Edit Modal -->
+      <div id="editModal" class="modal" aria-hidden="true">
+        <div class="modal-card">
+          <h2>Edit Blog</h2>
+          <input id="editLink" type="hidden" />
+          <label>Page Title</label>
+          <input id="editPageTitle" type="text" />
+          <label>Display Title (H2)</label>
+          <input id="editTitle" type="text" />
+          <div class="row">
+            <div>
+              <label>Publish Date</label>
+              <input id="editDate" type="date" />
+            </div>
+            <div>
+              <label>Back Link</label>
+              <input id="editBackHref" type="text" />
+            </div>
+          </div>
+          <label>Image (URL or assets/...)</label>
+          <div class="file-control">
+            <input id="editImage" type="text" style="flex:1;" />
+            <button type="button" class="btn ghost" id="editClearImageBtn">Clear Image</button>
+          </div>
+          <label>Paragraphs (one per line)</label>
+          <textarea id="editParagraphs"></textarea>
+          <div class="modal-actions">
+            <button class="btn" id="editCancel">Cancel</button>
+            <button class="btn primary" id="editSave">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Modal -->
+      <div id="confirmModal" class="modal" aria-hidden="true">
+        <div class="modal-card">
+          <h2 id="confirmTitle">Confirm</h2>
+          <p id="confirmMessage" class="small" style="margin-top:6px;"></p>
+          <div class="modal-actions">
+            <button class="btn" id="confirmNo">No</button>
+            <button class="btn danger" id="confirmYes">Yes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </div>
+
+    <script>
+      const el = id => document.getElementById(id);
+      const log = (m, cls) => {
+        const line = document.createElement('div');
+        if (cls) line.className = cls;
+        line.textContent = m;
+        document.getElementById('log').prepend(line);
+      };
+
+      function showToast(message, variant){
+        const t = document.getElementById('toast');
+        t.textContent = message;
+        t.style.background = variant === 'error' ? '#991b1b' : (variant === 'success' ? '#065f46' : '#111827');
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(()=> t.classList.remove('show'), 2200);
+      }
+
+      function openModal(id){ document.getElementById(id).classList.add('show'); }
+      function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+      function setPreview(src){
+        const box = document.getElementById('preview');
+        const img = document.getElementById('previewImg');
+        const path = document.getElementById('previewPath');
+        if(!src){ box.style.display = 'none'; return; }
+        box.style.display = 'grid';
+        img.src = src;
+        path.textContent = src;
+      }
+
+      // Upload when file chosen
+      el('file').addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        el('status').textContent = 'Uploading image...';
+        try {
+          const form = new FormData();
+          form.append('image', file);
+          const res = await fetch('/api/upload-image', { method: 'POST', body: form });
+          if (!res.ok) throw new Error('Upload failed');
+          const data = await res.json();
+          el('imageUrl').value = data.path; // assets/...
+          setPreview(data.path);
+          log('Uploaded image → ' + data.path, 'success');
+          el('status').textContent = 'Ready';
+          showToast('Image uploaded', 'success');
+        } catch (err) {
+          log('Error: ' + err.message, 'error');
+          el('status').textContent = 'Upload error';
+          showToast('Upload failed', 'error');
+        }
+      });
+
+      el('chooseFileBtn').addEventListener('click', () => el('file').click());
+      el('imageUrl').addEventListener('input', () => setPreview(el('imageUrl').value.trim()));
+
+      // Clear/remove selected image and preview (create form)
+      document.getElementById('clearImageBtn').addEventListener('click', () => {
+        el('file').value = '';
+        el('imageUrl').value = '';
+        const name = document.getElementById('fileName');
+        if (name) name.textContent = '';
+        setPreview('');
+      });
+
+      function resetCreateForm(){
+        el('pageTitle').value = '';
+        el('title').value = '';
+        el('publishDate').value = '';
+        el('backHref').value = 'index.html';
+        el('paragraphs').value = '';
+        el('file').value = '';
+        el('imageUrl').value = '';
+        setPreview('');
+        el('status').textContent = 'Idle';
+        // Clear any focus to remove focus glow
+        try { document.activeElement && document.activeElement.blur(); } catch {}
+        try {
+          document.querySelectorAll('input, textarea, button').forEach(node => node.blur());
+        } catch {}
+      }
+
+      el('resetBtn').addEventListener('click', resetCreateForm);
+
+      el('createBtn').addEventListener('click', async () => {
+        const pageTitle = el('pageTitle').value.trim();
+        const title = el('title').value.trim();
+        const publishDate = el('publishDate').value;
+        const backHref = el('backHref').value.trim() || 'index.html';
+        const imageSrc = el('imageUrl').value.trim();
+        const introParagraphs = el('paragraphs').value.split('\n').map(s => s.trim()).filter(Boolean);
+
+        if (!pageTitle || !title || !publishDate || !imageSrc) {
+          log('Please fill required fields (title, page title, date, image).', 'error');
+          return;
+        }
+
+        el('status').textContent = 'Creating blog...';
+        try {
+          const res = await fetch('/api/create-blog', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pageTitle, title, publishDate, backHref, imageSrc, introParagraphs })
+          });
+          if (!res.ok) throw new Error('Create failed');
+          const data = await res.json();
+          log('Created ' + data.filename + ' → ' + data.url, 'success');
+          el('status').textContent = 'Done';
+          await loadBlogs();
+          showToast('Blog created', 'success');
+          // Auto reset the form and clear any glow/focus effects
+          resetCreateForm();
+        } catch (err) {
+          log('Error: ' + err.message, 'error');
+          el('status').textContent = 'Error';
+          showToast('Create failed', 'error');
+        }
+      });
+
+      async function loadBlogs(){
+        try {
+          const res = await fetch('/api/blogs');
+          if (!res.ok) throw new Error('Failed to load blogs');
+          const blogs = await res.json();
+          const list = document.getElementById('blogList');
+          list.innerHTML = '';
+          for (const b of blogs){
+            const row = document.createElement('div');
+            row.className = 'list-row';
+            const title = document.createElement('div');
+            title.textContent = `${b.pageTitle || b.title || b.link} (${b.date || ''})`;
+            const openBtn = document.createElement('a');
+            openBtn.href = `/${b.link}`;
+            openBtn.target = '_blank';
+            openBtn.className = 'btn';
+            openBtn.textContent = 'Open';
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn';
+            editBtn.textContent = 'Edit';
+            editBtn.onclick = () => openEditModal(b);
+            const delBtn = document.createElement('button');
+            delBtn.className = 'btn danger';
+            delBtn.textContent = 'Delete';
+            delBtn.onclick = () => confirmDelete(b.link);
+            row.appendChild(title);
+            row.appendChild(openBtn);
+            row.appendChild(editBtn);
+            row.appendChild(delBtn);
+            list.appendChild(row);
+          }
+        } catch (e) {
+          log('Load blogs error: ' + e.message, 'error');
+        }
+      }
+
+      function confirmDelete(link){
+        const title = document.getElementById('confirmTitle');
+        const msg = document.getElementById('confirmMessage');
+        title.textContent = 'Delete Blog';
+        msg.textContent = 'Are you sure you want to delete ' + link + '?';
+        openModal('confirmModal');
+        const yes = document.getElementById('confirmYes');
+        const no = document.getElementById('confirmNo');
+        const cleanup = () => {
+          yes.onclick = null; no.onclick = null; closeModal('confirmModal');
+        };
+        no.onclick = cleanup;
+        yes.onclick = async () => {
+          el('status').textContent = 'Deleting...';
+          try {
+            const res = await fetch('/api/blogs/' + encodeURIComponent(link), { method: 'DELETE' });
+            if (!res.ok) throw new Error('Delete failed');
+            log('Deleted ' + link, 'success');
+            el('status').textContent = 'Done';
+            showToast('Blog deleted', 'success');
+            loadBlogs();
+          } catch (e) {
+            log('Delete error: ' + e.message, 'error');
+            el('status').textContent = 'Error';
+            showToast('Delete failed', 'error');
+          } finally {
+            cleanup();
+          }
+        };
+      }
+
+      function openEditModal(b){
+        el('editLink').value = b.link;
+        el('editPageTitle').value = b.pageTitle || '';
+        el('editTitle').value = b.title || '';
+        el('editDate').value = b.date || '';
+        el('editBackHref').value = b.backHref || 'index.html';
+        el('editImage').value = b.image || '';
+        // Pre-fill with paragraphs from the HTML file to reflect current content
+        el('editParagraphs').value = 'Loading current paragraphs...';
+        fetch('/api/blogs/' + encodeURIComponent(b.link) + '/content')
+          .then(r => r.ok ? r.json() : Promise.reject(new Error('Failed to fetch content')))
+          .then(data => {
+            const paras = (data && Array.isArray(data.paragraphs)) ? data.paragraphs : (b.paragraphs || []);
+            el('editParagraphs').value = paras.join('\n');
+          })
+          .catch(() => {
+            // Fallback to JSON if HTML parse fails
+            el('editParagraphs').value = (b.paragraphs || []).join('\n');
+          });
+        openModal('editModal');
+      }
+
+      // Clear image in edit modal (does not save until user clicks Save)
+      document.getElementById('editClearImageBtn').addEventListener('click', () => {
+        el('editImage').value = '';
+      });
+
+      el('editCancel').addEventListener('click', () => closeModal('editModal'));
+      el('editSave').addEventListener('click', async () => {
+        const link = el('editLink').value;
+        const pageTitle = el('editPageTitle').value.trim();
+        const title = el('editTitle').value.trim();
+        const date = el('editDate').value;
+        const backHref = el('editBackHref').value.trim() || 'index.html';
+        const image = el('editImage').value.trim();
+        const paragraphs = el('editParagraphs').value.split('\n').map(s=>s.trim()).filter(Boolean);
+
+        el('status').textContent = 'Updating...';
+        try {
+          const res = await fetch('/api/update-blog', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ link, pageTitle, title, date, image, backHref, paragraphs })
+          });
+          if (!res.ok) throw new Error('Update failed');
+          log('Updated ' + link, 'success');
+          el('status').textContent = 'Done';
+          showToast('Changes saved', 'success');
+          closeModal('editModal');
+          loadBlogs();
+        } catch (e) {
+          log('Update error: ' + e.message, 'error');
+          el('status').textContent = 'Error';
+          showToast('Save failed', 'error');
+        }
+      });
+
+      document.getElementById('refreshBtn').addEventListener('click', loadBlogs);
+      loadBlogs();
+    </script>
+  </body>
+</html>
+
+

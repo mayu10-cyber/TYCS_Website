@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TYCS Loader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+        }
+
+        #custom-loader {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .loader-bg {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: repeating-radial-gradient(circle, #00c23f10, transparent 200px);
+            animation: animateBg 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes animateBg {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cube {
+            position: relative;
+            width: 0;
+            height: 0;
+            transform-style: preserve-3d;
+            perspective: 1200px;
+            margin-bottom: 60px;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #00cc66, #006633);
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00cc66;
+            transform-style: preserve-3d;
+            opacity: 0;
+        }
+
+        .words {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 2.5rem;
+            font-family: 'Permanent Marker', cursive;
+            letter-spacing: 2px;
+            color: #6b6969da;
+            z-index: 2;
+        }
+
+        .word {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .word:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+
+        .word:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        .word:nth-child(3) {
+            animation-delay: 2.5s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-out-words .word {
+            animation: fadeOut 0.8s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+
+        #custom-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="custom-loader">
+        <div class="loader-bg"></div>
+        <div id="cube"></div>
+        <div class="words" id="slogan">
+            <span class="word">Support.</span>
+            <span class="word">Repair.</span>
+            <span class="word">Secure.</span>
+        </div>
+    </div>
+
+    <script>
+        const cube = document.getElementById('cube');
+        const spacing = 22;
+        const particles = [];
+
+        const letterMaps = {
+            T: ["11111", "00100", "00100", "00100", "00100"],
+            Y: ["10001", "01010", "00100", "00100", "00100"],
+            C: ["01111", "10000", "10000", "10000", "01111"],
+            S: ["01111", "10000", "01110", "00001", "11110"]
+        };
+
+        const layout = [
+            { letter: "T", offsetX: -250 },
+            { letter: "Y", offsetX: -120 },
+            { letter: "C", offsetX: -2 },
+            { letter: "S", offsetX: 130 }
+        ];
+
+        layout.forEach(({ letter, offsetX }) => {
+            const map = letterMaps[letter];
+            for (let y = 0; y < map.length; y++) {
+                for (let x = 0; x < map[y].length; x++) {
+                    if (map[y][x] === '1') {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+
+                        const finalX = offsetX + x * spacing;
+                        const finalY = (y - 2) * spacing;
+                        const finalZ = 0;
+
+                        const startX3D = (Math.random() - 0.5) * 1500;
+                        const startY3D = (Math.random() - 0.5) * 1500;
+                        const startZ3D = (Math.random() - 0.5) * 1500;
+
+                        particle.style.transform = `translate3d(${startX3D}px, ${startY3D}px, ${startZ3D}px) scale(0.3)`;
+                        cube.appendChild(particle);
+
+                        particles.push({ element: particle, finalX, finalY, finalZ });
+                    }
+                }
+            }
+        });
+
+        function animateParticles(toShape) {
+            particles.forEach(({ element, finalX, finalY, finalZ }) => {
+                const tx = toShape ? finalX : (Math.random() - 0.5) * 1500;
+                const ty = toShape ? finalY : (Math.random() - 0.5) * 1500;
+                const tz = toShape ? finalZ : (Math.random() - 0.5) * 1500;
+
+                element.style.transition = 'transform 2s ease, opacity 2s ease';
+                element.style.opacity = 1;
+                element.style.transform = `translate3d(${tx}px, ${ty}px, ${tz}px) scale(1)`;
+            });
+        }
+
+        window.onload = () => {
+            animateParticles(true);
+
+            setTimeout(() => {
+                animateParticles(false);
+                document.getElementById("slogan").classList.add("fade-out-words");
+            }, 3500);
+
+            setTimeout(() => {
+                document.getElementById("custom-loader").classList.add("hidden");
+                window.location.href = 'index.html';
+                document.body.style.overflow = 'auto';
+            }, 4900);
+        };
+    </script>
+
+</body>
+
+</html>

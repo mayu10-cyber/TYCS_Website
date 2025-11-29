@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>About Us - Tejyash Cyber Solutions</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-img {
+      width: 50px;
+    }
+
+    .logo-text h1 {
+      color: #32CD32;
+      font-size: 22px;
+      margin: 0;
+    }
+
+    .logo-text p {
+      color: #007BFF;
+      margin: 0;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #000;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #007BFF;
+    }
+
+    .about-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 60px 30px;
+      gap: 40px;
+    }
+
+    .about-text-box {
+      flex: 2;
+      max-width: 700px;
+      color: #333;
+      margin-left: 30px;
+    }
+
+    .about-text-box h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #222;
+      text-align: center;
+      margin-left: 0;
+    }
+
+    .about-title .highlight {
+      color: #32b6cd;
+    }
+
+    .about-text-box h6 {
+      font-size: 19px;
+      color: #222;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .about-text-box p {
+      font-size: 19px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    .read-more-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 12px 30px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #32CD32;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
+    }
+
+    .read-more-btn:hover {
+      background-color: #28a745;
+      transform: translateY(-2px);
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .popup-container {
+      background: white;
+      width: 90%;
+      max-width: 1100px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 12px;
+      padding: 30px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      width: 35px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 10px;
+      right: 60px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      padding: 8px 15px;
+      cursor: pointer;
+      display: none;
+      z-index: 10;
+    }
+
+    #history-popup .back-btn,
+    #mission-popup .back-btn,
+    #why-choose-popup .back-btn {
+      display: block;
+    }
+
+    .quote-carousel {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      max-height: 75vh;
+      margin-top: 40px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .quote-text {
+      flex: 0.4;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: rgba(220, 245, 230, 0.95);
+    }
+
+    .quote-text blockquote {
+      font-size: 28px;
+      font-style: italic;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .quote-text cite {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .quote-image-container {
+      flex: 0.6;
+      position: relative;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quote-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease;
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 48px;
+      color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(0, 0, 0, 0.3);
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .nav-arrow:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-arrow.left {
+      left: 10px;
+    }
+
+    .nav-arrow.right {
+      right: 10px;
+    }
+
+    .animated-image {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 20px;
+    }
+
+    .animated-image img {
+      width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+      animation: float 2s infinite alternate ease-in-out;
+    }
+
+    .animated-image img:nth-child(1) {
+      margin-bottom: 150px;
+      margin-left: 100px;
+      margin-top: 50px;
+    }
+
+    .animated-image img:nth-child(2) {
+      margin-bottom: 150px;
+      margin-left: 300px;
+    }
+
+    .animated-image img:nth-child(3) {
+      margin-left: 100px;
+    }
+
+    .popup-buttons-vertical {
+      position: absolute;
+      top: 570px;
+      right: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 80px;
+    }
+
+    .popup-buttons-vertical .read-more-btn {
+      padding: 14px 20px;
+      width: 180px;
+      font-size: 15px;
+      background-color: #32CD32;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(50, 205, 50, 0.3);
+      transition: background 0.3s ease, transform 0.2s ease;
+      text-align: center;
+      animation: float-updown 2s ease-in-out infinite;
+    }
+
+    /* Diagonal spacing */
+    .popup-buttons-vertical .read-more-btn:nth-child(1) {
+      margin-left: 350px;
+    }
+
+    .popup-buttons-vertical .read-more-btn:nth-child(2) {
+      margin-left: 500px;
+    }
+
+    .popup-buttons-vertical .read-more-btn:nth-child(3) {
+      margin-left: 350px;
+    }
+
+    .popup-buttons-vertical .read-more-btn:hover {
+      background-color: #28a745;
+      transform: translateY(-2px);
+    }
+
+    .history-content,
+    .mission-content,
+    .why-choose-content {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 500px;
+      padding: 20px;
+    }
+
+    .history-text,
+    .mission-text,
+    .why-choose-text {
+      flex: 1;
+      min-width: 300px;
+      padding: 20px;
+    }
+
+    .history-image,
+    .mission-image,
+    .why-choose-image {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+      position: relative;
+    }
+
+    .history-image img,
+    .mission-image img,
+    .why-choose-image img {
+      width: 100%;
+      max-width: 500px;
+      height: 350px;
+      /* Added fixed height */
+      object-fit: cover;
+      /* Ensures images maintain aspect ratio */
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Existing image float animation */
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-15px);
+      }
+    }
+
+    /* New up-down animation for buttons */
+    @keyframes float-updown {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .quote-carousel {
+        flex-direction: column;
+      }
+
+      .quote-text {
+        padding: 30px;
+        text-align: center;
+      }
+
+      .quote-text blockquote {
+        font-size: 22px;
+      }
+
+      .quote-text cite {
+        font-size: 16px;
+      }
+
+      .quote-image-container img {
+        height: 300px;
+      }
+
+      .about-text-box {
+        margin-left: 0;
+        padding: 0 20px;
+      }
+
+      .about-text-box h1,
+      .about-text-box h6,
+      .about-text-box p {
+        text-align: center;
+        margin-left: 0;
+      }
+
+      .popup-buttons-vertical {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 30px;
+        gap: 10px;
+      }
+
+      .popup-buttons-vertical .read-more-btn {
+        width: auto;
+        margin-left: 0 !important;
+        animation: none;
+      }
+
+      .animated-image {
+        align-items: center;
+      }
+
+      .animated-image img {
+        margin-left: 0 !important;
+      }
+
+      .history-content,
+      .mission-content,
+      .why-choose-content {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .history-text,
+      .mission-text,
+      .why-choose-text {
+        padding-left: 0;
+        order: 2;
+      }
+
+      .history-image,
+      .mission-image,
+      .why-choose-image {
+        order: 1;
+      }
+
+      .history-image img,
+      .mission-image img,
+      .why-choose-image img {
+        height: 250px;
+        /* Adjusted for mobile */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="TYCS Logo" class="logo-img" />
+      <div class="logo-text">
+        <h1>TEJYASH CYBER SOLUTIONS</h1>
+        <p>TECH TO THE RESCUE</p>
+      </div>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="About Us.html">About Us</a>
+      <a href="Team.html">Team Member</a>
+      <a href="clients.html">Clients</a>
+      <a href="feedback.html">Feedback</a>
+      <a href="location.html">Location</a>
+    </nav>
+  </header>
+
+  <section class="about-section">
+    <div class="about-text-box">
+      <h1 class="about-title">What We <span class="highlight">Do & Who </span> We Are</h1>
+      <h6>Welcome to our TEJYASH CYBER SOLUTIONS</h6>
+      <p>Our company was founded with the mission of empowering businesses and individuals to safeguard themselves
+        against cyber threats while
+        maximizing the benefits of modern technology. We are committed to providing cutting-edge cybersecurity
+        solutions, IT services, and
+        technological innovations that ensure data security, operational efficiency, and digital resilience. By
+        leveraging advanced security
+        protocols, proactive threat mitigation strategies, and expert guidance, we help our clients stay protected in an
+        ever-evolving digital
+        landscape. Our goal is to create a secure and technologically optimized environment where businesses and
+        individuals can thrive without
+        the risk of cyber vulnerabilities.
+      </p>
+
+      <p>We are a dedicated team of experienced cybersecurity experts, IT consultants, and technology professionals
+        committed to helping our
+        clients harness the power of technology while ensuring their digital safety. With deep expertise in
+        cybersecurity, IT infrastructure
+        , and modern technological solutions, we provide strategic guidance and cutting-edge services that empower
+        businesses to operate efficiently
+        and securely.
+      </p>
+
+      <p>Our services encompass a comprehensive range of cybersecurity solutions designed to protect businesses and
+        individuals from digital
+        threats. We specialize in network security, ensuring secure and resilient IT infrastructures; data backup and
+        recovery, safeguarding
+        critical information against loss or breaches; virus removal, eliminating malware and securing systems from
+        cyberattacks; and digital
+        forensics, investigating security incidents to identify threats and vulnerabilities.
+      </p>
+
+      <button class="read-more-btn" onclick="document.querySelector('.popup-overlay').style.display='flex'">Read More
+        <span>➔</span></button>
+    </div>
+    <div class="animated-image">
+      <img src="tejas3.jpg" alt="About Image 1" />
+      <img src="tejas5.jpg" alt="About Image 2" />
+      <img src="tejas4.jpg" alt="About Image 3" />
+    </div>
+  </section>
+
+  <!-- Main Popup Modal -->
+  <div class="popup-overlay">
+    <div class="popup-container">
+      <button class="close-btn" onclick="document.querySelector('.popup-overlay').style.display='none'">&times;</button>
+      <button class="back-btn" style="display: none;"></button>
+      <div class="quote-carousel">
+        <div class="quote-text">
+          <blockquote id="quote">"Every problem is a gift, without problems we would not grow."</blockquote>
+          <cite id="author">– Anthony Robbins</cite>
+        </div>
+        <div class="quote-image-container">
+          <div class="nav-arrow left" id="prev">&#8249;</div>
+          <img src="tejas3.jpg" alt="Quote Image" id="carousel-img" />
+          <div class="nav-arrow right" id="next">&#8250;</div>
+        </div>
+      </div>
+
+      <section class="intro-text">
+        <div class="about-text-box">
+          <h1>Welcome to our TEJYASH CYBER SOLUTIONS</h1>
+          <p>Tejyash Cyber Solutions is dedicated to helping businesses and individuals stay protected from cyber
+            threats while leveraging the
+            benefits of modern technology. We offer advanced cybersecurity services, IT support, and innovative tech
+            solutions to ensure digital
+            safety, data security, and operational efficiency.
+          </p>
+          <p>We are a dedicated team of experienced cybersecurity experts, IT consultants, and technology professionals
+            committed to helping our
+            clients harness the power of technology while ensuring their digital safety.
+          </p>
+          <p>Our services encompass a comprehensive range of cybersecurity solutions designed to protect businesses and
+            individuals from digital threats.</p>
+        </div>
+      </section>
+
+      <div class="popup-buttons-vertical">
+        <button class="read-more-btn" onclick="showHistoryPopup()">Our History</button>
+        <button class="read-more-btn" onclick="showMissionPopup()">Our Mission</button>
+        <button class="read-more-btn" onclick="showWhyChoosePopup()">Why Choose Us</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Our History Popup -->
+  <div class="popup-overlay" id="history-popup">
+    <div class="popup-container">
+      <button class="close-btn" onclick="hideHistoryPopup()">&times;</button>
+      <button class="back-btn" onclick="backToMainPopup()">Back</button>
+      <div class="history-content">
+        <div class="history-text">
+          <h2 style="color: #32CD32; font-size: 28px;">Our History</h2>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            At Tejyash Cyber Solutions, we have a rich history in the world of technology.
+            It all began 15 years ago, when our founder, <strong>Tejas Relekar</strong>, recognized the growing need
+            for high-quality computer & Laptop repair services and innovative Cyber solutions.
+            With their extensive expertise and a vision to provide exceptional customer service,
+            they laid the foundation for Tejyash Cyber Solutions company. Since then,
+            we have been dedicated to serving our clients with integrity, professionalism,
+            and technical excellence.
+          </p>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            Over the years, we've grown from a small local repair shop to a comprehensive cybersecurity solutions
+            provider,
+            expanding our services to meet the evolving needs of our clients in the digital age. Our journey has been
+            marked
+            by continuous learning, adaptation to new technologies, and an unwavering commitment to customer
+            satisfaction.
+          </p>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            Today, we stand as a trusted partner for businesses and individuals alike, offering cutting-edge solutions
+            that protect digital assets and ensure smooth technological operations.
+          </p>
+        </div>
+        <div class="history-image">
+          <img src="tejas.webp" alt="History Image" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Our Mission Popup -->
+  <div class="popup-overlay" id="mission-popup">
+    <div class="popup-container">
+      <button class="close-btn" onclick="hideMissionPopup()">&times;</button>
+      <button class="back-btn" onclick="backToMainPopup()">Back</button>
+      <div class="mission-content">
+        <div class="mission-text">
+          <h2 style="color: #32CD32; font-size: 28px;">Our Mission</h2>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            Our mission at Tejyash Cyber Solutions is to simplify technology and empower our clients to thrive in a
+            digital world. We are dedicated
+            to delivering exceptional computer repair services and comprehensive IT solutions that meet the diverse
+            needs of businesses and individuals.
+          </p>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            We believe in empowering our clients by providing them with the knowledge, tools, and resources necessary to
+            navigate and utilize
+            technology effectively. We strive to bridge the gap between complex technology and our clients'
+            understanding, making it accessible
+            and user-friendly.
+          </p>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            We understand that technology can be overwhelming and intimidating. Our mission is to simplify technology by
+            breaking it down into
+            manageable and understandable components. We aim to demystify complex concepts and provide clear
+            explanations to our clients, ensuring
+            they feel confident and informed.
+          </p>
+        </div>
+        <div class="mission-image">
+          <img src="tejas2.webp" alt="Mission Image" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Choose Us Popup -->
+  <div class="popup-overlay" id="why-choose-popup">
+    <div class="popup-container">
+      <button class="close-btn" onclick="hideWhyChoosePopup()">&times;</button>
+      <button class="back-btn" onclick="backToMainPopup()">Back</button>
+      <div class="why-choose-content">
+        <div class="why-choose-text">
+          <h2 style="color: #32CD32; font-size: 28px;">Why Choose Us</h2>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            At Tejyash Cyber Solutions, we offer a wide range of services tailored to address the diverse needs of our
+            clients. Our skilled technicians
+            are equipped with the latest tools and knowledge to diagnose and repair hardware and software issues with
+            precision and efficiency. Whether
+            it's a broken screen, a virus-infected system, or a complex network setup, we have the expertise to get your
+            devices up and running smoothly.
+          </p>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            What sets us apart is our commitment to personalized service. We take the time to understand your specific
+            needs and provide customized
+            solutions that work best for you. Our team stays updated with the latest industry trends and technologies to
+            ensure we deliver the most
+            effective and up-to-date services.
+          </p>
+          <p style="font-size: 18px; color: #444; line-height: 1.6;">
+            Customer satisfaction is at the heart of everything we do. We pride ourselves on our responsive customer
+            support, transparent pricing,
+            and quick turnaround times. When you choose Tejyash Cyber Solutions, you're choosing a partner who genuinely
+            cares about your technological
+            well-being and success.
+          </p>
+        </div>
+        <div class="why-choose-image">
+          <img src="tejas5.jpg" alt="Why Choose Us Image" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Carousel functionality
+    const carouselData = [
+      {
+        img: 'tejas3.jpg',
+        quote: '"Every problem is a gift, without problems we would not grow."',
+        author: '– Anthony Robbins'
+      },
+      {
+        img: 'tejas5.jpg',
+        quote: '"I don\'t know the word \'quit.\' Either I never did, or I have abolished it."',
+        author: '– Susan Butcher'
+      },
+      {
+        img: 'tejas4.jpg',
+        quote: '"If you want to shine like a sun, first burn like a sun."',
+        author: '– APJ Abdul Kalam'
+      }
+    ];
+
+    let currentSlide = 0;
+    const imgEl = document.getElementById('carousel-img');
+    const quoteEl = document.getElementById('quote');
+    const authorEl = document.getElementById('author');
+
+    function updateSlide(index) {
+      imgEl.style.opacity = 0;
+      quoteEl.style.opacity = 0;
+      authorEl.style.opacity = 0;
+      setTimeout(() => {
+        imgEl.src = carouselData[index].img;
+        quoteEl.textContent = carouselData[index].quote;
+        authorEl.textContent = carouselData[index].author;
+        imgEl.style.opacity = 1;
+        quoteEl.style.opacity = 1;
+        authorEl.style.opacity = 1;
+      }, 300);
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + carouselData.length) % carouselData.length;
+      updateSlide(currentSlide);
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % carouselData.length;
+      updateSlide(currentSlide);
+    });
+
+    // Popup functions
+    function showHistoryPopup() {
+      document.querySelector('.popup-overlay').style.display = 'none';
+      document.getElementById('history-popup').style.display = 'flex';
+    }
+
+    function hideHistoryPopup() {
+      document.getElementById('history-popup').style.display = 'none';
+    }
+
+    function showMissionPopup() {
+      document.querySelector('.popup-overlay').style.display = 'none';
+      document.getElementById('mission-popup').style.display = 'flex';
+    }
+
+    function hideMissionPopup() {
+      document.getElementById('mission-popup').style.display = 'none';
+    }
+
+    function showWhyChoosePopup() {
+      document.querySelector('.popup-overlay').style.display = 'none';
+      document.getElementById('why-choose-popup').style.display = 'flex';
+    }
+
+    function hideWhyChoosePopup() {
+      document.getElementById('why-choose-popup').style.display = 'none';
+    }
+
+    function backToMainPopup() {
+      document.querySelector('.popup-overlay').style.display = 'flex';
+      document.getElementById('history-popup').style.display = 'none';
+      document.getElementById('mission-popup').style.display = 'none';
+      document.getElementById('why-choose-popup').style.display = 'none';
+    }
+  </script>
+
+</body>
+
+</html>

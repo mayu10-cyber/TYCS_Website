@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Service | Tech Solutions</title>
+  <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #14b8a6;
+      --secondary-dark: #0d9488;
+      --bg-color: #181c24;
+      --card-bg: rgba(55, 65, 81, 0.9);
+      --text-light: #f3f4f6;
+      --text-muted: #d1d5db;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, rgb(229, 255, 207), rgb(255, 255, 255), rgb(220, 255, 255));
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", sans-serif;
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1100;
+    }
+
+    /* Left Side Group (Hamburger + Logo) */
+    .nav-left-group {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    /* Logo Image */
+    .nav-brand img {
+      height: auto;
+      max-width: 400px;
+      padding: 10px;
+      transition: all 0.3s ease;
+    }
+
+    /* Navigation Links */
+    .nav-list {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: black;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      position: relative;
+      padding: 0.8rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: rgb(81, 155, 81);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(to right, lightgreen, aqua);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    nav .active::after {
+      width: 100%;
+    }
+
+    nav .active {
+      color: rgb(81, 155, 81);
+    }
+
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      font-size: 1.6rem;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0.5rem 1rem;
+        flex-wrap: wrap;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-left-group {
+        justify-content: flex-start;
+        width: auto;
+        flex-grow: 1;
+      }
+
+      .nav-brand img {
+        max-width: 160px;
+      }
+
+      .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: white;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        padding: 1rem 0;
+        gap: 0.8rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-list.active {
+        display: flex;
+      }
+
+      .nav-link {
+        width: 100%;
+        text-align: left;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.2rem;
+      }
+
+      .nav-link:hover {
+        background-color: #f5f5f5;
+      }
+    }
+
+
+    .container {
+      max-width: 56rem;
+      margin-top: 11rem;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 2rem;
+      /* background: linear-gradient(to bottom right, rgba(236, 255, 219, 0.466), rgb(255, 255, 255), rgba(201, 255, 255, 0.356)); */
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+      padding: 2.5rem;
+      border-radius: 2rem;
+      z-index: 1;
+      backdrop-filter: blur(32px) saturate(140%);
+      -webkit-backdrop-filter: blur(32px) saturate(140%);
+      border: 1.5px solid rgba(34, 197, 94, 0.18);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.25);
+    }
+
+    #serviceForm {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .text-center {
+      text-align: center;
+      margin-bottom: 2rem;
+      grid-column: 1 / -1;
+    }
+
+    .headline {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background-image: linear-gradient(to bottom right, #059669);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .subheading {
+      /* Green gradient for subtitle */
+      background-image: linear-gradient(90deg, rgb(24, 24, 24), rgb(24, 24, 24), rgb(24, 24, 24));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      font-size: 1.25rem;
+      animation: fadeIn 0.6s ease-out 0.2s forwards;
+      opacity: 0;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.95rem;
+      /* font-weight: 500; */
+      background-image: linear-gradient(90deg, rgb(24, 24, 24), rgb(24, 24, 24), rgb(24, 24, 24));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      background-color: #fff;
+      border: 2px solid rgb(213, 213, 213);
+      color: #2D3748;
+      outline: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      /* border-color: #4F46E5; */
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.351);
+      background-color: #fff;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #94A3B8;
+      opacity: 1;
+    }
+
+    .submit-button {
+      grid-column: 1 / -1;
+      margin: 1rem auto 0;
+      width: 100%;
+      max-width: 24rem;
+      padding: 0.85rem 1.5rem;
+      background-image: linear-gradient(to right,
+          var(--secondary),
+          var(--primary));
+      color: white;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-button:hover {
+      background-image: linear-gradient(to right,
+          var(--secondary-dark),
+          var(--primary-dark));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .submit-button:active {
+      transform: translateY(0);
+    }
+
+    .submit-button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .submit-button:hover::after {
+      transform: translateX(100%);
+    }
+
+    .back-button {
+      color: var(--primary);
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .back-button:hover {
+      color: var(--secondary);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .fade-in-delay-1 {
+      animation-delay: 0.2s;
+    }
+
+    .fade-in-delay-2 {
+      animation-delay: 0.4s;
+    }
+
+    .fade-in-delay-3 {
+      animation-delay: 0.6s;
+    }
+
+    .fade-in-delay-4 {
+      animation-delay: 0.8s;
+    }
+
+    .fade-in-delay-5 {
+      animation-delay: 1s;
+    }
+
+    .fade-in-delay-6 {
+      animation-delay: 1.2s;
+    }
+
+    .fade-in-delay-7 {
+      animation-delay: 1.4s;
+    }
+
+    .fade-in-delay-8 {
+      animation-delay: 1.6s;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      transform: translateX(200%);
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .toast.success {
+      background-color: var(--success);
+      transform: translateX(0);
+    }
+
+    .toast.error {
+      background-color: var(--error);
+      transform: translateX(0);
+    }
+
+    .toast-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: none;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        margin: 1rem;
+      }
+
+      #serviceForm {
+        grid-template-columns: 1fr;
+      }
+
+      .headline {
+        font-size: 2rem;
+      }
+
+      .subheading {
+        font-size: 1rem;
+        max-width: 100%;
+      }
+    }
+
+    /* Form validation styles */
+    .form-group.error input,
+    .form-group.error select,
+    .form-group.error textarea {
+      border-color: var(--error);
+    }
+
+    .error-message {
+      color: var(--error);
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .form-group.error .error-message {
+      display: block;
+    }
+
+    /* Datepicker improvements */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.8);
+      cursor: pointer;
+    }
+
+    /* Select dropdown arrow */
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d1d5db'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav>
+      <div class="nav-left-group">
+        <div class="nav-brand">
+          <img src="Home/TYCS3.dffac8614160bdfff849.png" alt="logo" width="320" />
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="booking.html" class="nav-link active">Book Service</a></li>
+        <li><a href="teams.html" class="nav-link">Teams</a></li>
+        <li><a href="contactus.html" class="nav-link">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- <a href="index.html" class="back-button fade-in">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Services
+    </a> -->
+
+    <div class="text-center">
+      <h1 class="headline">Book a <span class="green">Service</span></h1>
+      <p class="subheading">
+        Schedule your service in just a few clicks. Our team will contact you
+        to confirm your appointment.
+      </p>
+    </div>
+
+    <form id="serviceForm">
+      <div class="form-group fade-in-delay-1">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required placeholder="Tejas Relekar" />
+        <span class="error-message">Please enter your full name</span>
+      </div>
+
+      <div class="form-group fade-in-delay-2">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="Tejas@example.com" />
+        <span class="error-message">Please enter a valid email address</span>
+      </div>
+
+      <div class="form-group fade-in-delay-3">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required placeholder="+91 9820XXXXXX" />
+        <span class="error-message">Please enter a valid phone number</span>
+      </div>
+
+      <div class="form-group fade-in-delay-4">
+        <label for="serviceSelect">Select a Service</label>
+        <select name="service" required id="serviceSelect">
+          <option value="" disabled selected>Select a service</option>
+          <option>Computer & Laptop Sales</option>
+          <option>Computer & Laptop Repairing</option>
+          <option>Refurbish Laptops</option>
+          <option>Website Development</option>
+          <option>Remote Desk Support</option>
+          <option>Virus Removal</option>
+          <option>Networking</option>
+          <option>CCTV Installation & Service</option>
+          <option>Data Backup & Recovery</option>
+          <option>Digital marketing</option>
+          <option>IT Consultation</option>
+          <option>Others (Please mention in notes)</option>
+        </select>
+        <span class="error-message">Please select a service</span>
+      </div>
+
+
+      <div class="form-group fade-in-delay-5">
+        <label for="serviceType">Service Type</label>
+        <select name="serviceType" required id="serviceType">
+          <option value="Home Service" selected>Home Service</option>
+          <option value="Center Service">Service Center</option>
+        </select>
+      </div>
+
+      <div class="form-group fade-in-delay-6" id="addressGroup">
+        <label for="addressField">Service Address</label>
+        <input type="text" id="addressField" name="address" placeholder="123 Main St, City, State" />
+        <span class="error-message">Please enter your address</span>
+      </div>
+
+      <div class="form-group fade-in-delay-7">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required min="" />
+        <span class="error-message">Please select a valid date</span>
+      </div>
+
+      <div class="form-group fade-in-delay-8">
+        <label for="timeSlot">Time Slot</label>
+        <select id="timeSlot" name="timeSlot" required>
+          <option value="" disabled selected>Select Time Slot</option>
+          <option value="morning">Morning (9 AM - 12 PM)</option>
+          <option value="afternoon">Afternoon (1 PM - 5 PM)</option>
+          <option value="evening">Evening (6 PM - 9 PM)</option>
+        </select>
+        <span class="error-message">Please select a time slot</span>
+      </div>
+
+      <div class="form-group fade-in-delay-8 full-width">
+        <label for="details">Additional Notes</label>
+        <textarea id="details" name="details" rows="4"
+          placeholder="Any specific requirements or details about your issue..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-button">
+        Submit Booking
+        <span class="spinner" id="submitSpinner"></span>
+      </button>
+    </form>
+  </div>
+
+  <div id="toast" class="toast" style="display: none">
+    <span class="toast-icon" id="toastIcon">✓</span>
+    <span id="toastMessage">Booking submitted successfully!</span>
+  </div>
+
+  <script src="JS/mobile.js"></script>
+
+  <script src="JS/voicecontrol.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let voiceEnabled = localStorage.getItem("voiceEnabled") !== "false";
+
+      // Speak feedback function
+      const speakStatus = (msg) => {
+        const utterance = new SpeechSynthesisUtterance(msg);
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utterance);
+      };
+
+      // Toggle with Alt + S
+      document.addEventListener("keydown", (e) => {
+        if (e.altKey && e.key.toLowerCase() === "s") {
+          voiceEnabled = !voiceEnabled;
+          localStorage.setItem("voiceEnabled", voiceEnabled);
+          speakStatus(
+            voiceEnabled ? "Voice assist enabled" : "Voice assist disabled"
+          );
+        }
+      });
+
+      // Enhanced speak function with voice selection
+      let speakTimeout;
+      const speak = (text) => {
+        if (!voiceEnabled || !text.trim()) return;
+
+        clearTimeout(speakTimeout);
+        speakTimeout = setTimeout(() => {
+          const speakWithVoice = () => {
+            const voices = speechSynthesis.getVoices();
+            const preferredVoice =
+              voices.find((v) => v.lang === "mr-IN") ||
+              voices.find((v) => v.lang === "hi-IN") ||
+              voices.find((v) => v.lang.startsWith("en")) ||
+              voices[0];
+
+            const utterance = new SpeechSynthesisUtterance(text.trim());
+            if (preferredVoice) {
+              utterance.voice = preferredVoice;
+              utterance.lang = preferredVoice.lang;
+            }
+            utterance.rate = 1;
+            utterance.pitch = 1;
+
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+          };
+
+          if (speechSynthesis.getVoices().length === 0) {
+            speechSynthesis.onvoiceschanged = speakWithVoice;
+          } else {
+            speakWithVoice();
+          }
+        }, 100);
+      };
+
+      // Function to get clean text from an element
+      const getCleanText = (element) => {
+        if (
+          element.classList.contains("stars") ||
+          element.classList.contains("fa") ||
+          element.tagName === "SCRIPT" ||
+          element.tagName === "STYLE" ||
+          element.tagName === "IFRAME"
+        ) {
+          return "";
+        }
+
+        let text = element.innerText || element.textContent;
+        return text.replace(/\s+/g, " ").replace(/[★☆]/g, "").trim();
+      };
+
+      // Function to attach event listeners to iframes
+      const setupIframeSpeak = (iframe) => {
+        try {
+          // Only proceed if iframe is from same origin
+          if (iframe.contentDocument) {
+            const iframeDoc = iframe.contentDocument;
+
+            const iframeElements = iframeDoc.querySelectorAll("*");
+            iframeElements.forEach((el) => {
+              const cleanText = getCleanText(el);
+              if (!cleanText) return;
+
+              el.addEventListener("mouseenter", () => speak(cleanText));
+              el.addEventListener(
+                "touchstart",
+                (e) => {
+                  e.preventDefault();
+                  speak(cleanText);
+                },
+                { passive: false }
+              );
+            });
+
+            // Observe for changes in iframe
+            const iframeObserver = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                  if (node.nodeType !== 1) return;
+                  const cleanText = getCleanText(node);
+                  if (cleanText) {
+                    node.addEventListener("mouseenter", () =>
+                      speak(cleanText)
+                    );
+                    node.addEventListener(
+                      "touchstart",
+                      (e) => {
+                        e.preventDefault();
+                        speak(cleanText);
+                      },
+                      { passive: false }
+                    );
+                  }
+                });
+              });
+            });
+
+            iframeObserver.observe(iframeDoc.body, {
+              childList: true,
+              subtree: true,
+            });
+          }
+        } catch (error) {
+          console.log(
+            "Could not access iframe content due to security restrictions"
+          );
+        }
+      };
+
+      // Function to attach event listeners
+      const attachSpeakListeners = (element) => {
+        if (element._hasSpeakListener) return;
+
+        // Special handling for iframes
+        if (element.tagName === "IFRAME") {
+          // Wait for iframe to load
+          element.addEventListener("load", () => setupIframeSpeak(element));
+          return;
+        }
+
+        const cleanText = getCleanText(element);
+        if (!cleanText) return;
+
+        element.addEventListener("mouseenter", () => speak(cleanText));
+        element.addEventListener(
+          "touchstart",
+          (e) => {
+            e.preventDefault();
+            speak(cleanText);
+          },
+          { passive: false }
+        );
+
+        element._hasSpeakListener = true;
+      };
+
+      // MutationObserver for dynamic content
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType !== 1) return;
+
+            if (node.nodeType === 1) {
+              attachSpeakListeners(node);
+            }
+
+            const elements = node.querySelectorAll?.("*") || [];
+            elements.forEach(attachSpeakListeners);
+          });
+        });
+      });
+
+      // Start observing
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      // Initial setup for existing content
+      const allElements = document.querySelectorAll("*");
+      allElements.forEach(attachSpeakListeners);
+
+      // Special handling for existing iframes
+      document.querySelectorAll("iframe").forEach(setupIframeSpeak);
+    });
+  </script>
+
+  <script>
+    // DOM Elements
+    const serviceForm = document.getElementById("serviceForm");
+    const serviceSelect = document.getElementById("serviceSelect");
+    const serviceType = document.getElementById("serviceType");
+    const addressGroup = document.getElementById("addressGroup");
+    const addressField = document.getElementById("addressField");
+    const dateField = document.getElementById("date");
+    const submitSpinner = document.getElementById("submitSpinner");
+    const toast = document.getElementById("toast");
+    const toastIcon = document.getElementById("toastIcon");
+    const toastMessage = document.getElementById("toastMessage");
+
+    // Set minimum date to today
+    function setMinDate() {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const yyyy = today.getFullYear();
+      dateField.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Update service type state based on selected service
+    function updateServiceTypeState() {
+      const selectedService = serviceSelect.value;
+
+      if (selectedService === "CCTV Installation & Service") {
+        serviceType.value = "Home Service";
+        serviceType.disabled = true;
+      } else {
+        serviceType.disabled = false;
+      }
+
+      toggleAddressField();
+    }
+
+    // Toggle address field based on service type
+    function toggleAddressField() {
+      if (serviceType.value === "Home Service") {
+        addressGroup.style.display = "block";
+        addressField.setAttribute("required", "required");
+      } else {
+        addressGroup.style.display = "none";
+        addressField.removeAttribute("required");
+      }
+    }
+
+    // Show toast notification
+    function showToast(message, isSuccess) {
+      toast.style.display = "flex";
+      toast.className = isSuccess ? "toast success" : "toast error";
+      toastIcon.textContent = isSuccess ? "✓" : "✕";
+      toastMessage.textContent = message;
+
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 5000);
+    }
+
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      const formGroups = serviceForm.querySelectorAll(".form-group");
+
+      formGroups.forEach((group) => {
+        const input = group.querySelector("input, select, textarea");
+        if (!input) return;
+
+        // Skip validation for non-required fields
+        if (!input.hasAttribute("required") && input.value.trim() === "") {
+          group.classList.remove("error");
+          return;
+        }
+
+        // Special validation for email
+        if (
+          input.type === "email" &&
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)
+        ) {
+          group.classList.add("error");
+          isValid = false;
+          return;
+        }
+
+        // General required field validation
+        if (input.hasAttribute("required") && input.value.trim() === "") {
+          group.classList.add("error");
+          isValid = false;
+        } else {
+          group.classList.remove("error");
+        }
+      });
+
+      return isValid;
+    }
+
+    // Event Listeners
+    serviceSelect.addEventListener("change", updateServiceTypeState);
+    serviceType.addEventListener("change", toggleAddressField);
+
+    // Form submission
+    serviceForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      if (!validateForm()) {
+        showToast("Please fill all required fields correctly", false);
+        return;
+      }
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Show loading spinner
+      submitSpinner.style.display = "inline-block";
+      serviceForm.querySelector("button").disabled = true;
+
+      try {
+        const res = await fetch("http://localhost:3002/book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+          showToast(
+            "✅ Booking submitted successfully! We'll contact you soon.",
+            true
+          );
+          form.reset();
+          // Save selected service to localStorage
+          localStorage.setItem("selectedService", data.service);
+        } else {
+          showToast(
+            `❌ ${result.error || "Failed to submit booking"}`,
+            false
+          );
+        }
+      } catch (err) {
+        console.error("Submission error:", err);
+        showToast("❌ Network error. Please try again later.", false);
+      } finally {
+        submitSpinner.style.display = "none";
+        serviceForm.querySelector("button").disabled = false;
+      }
+    });
+
+    // Initialize form
+    document.addEventListener("DOMContentLoaded", () => {
+      setMinDate();
+
+      // Preload saved service selection
+      const savedService = localStorage.getItem("selectedService");
+      if (savedService && serviceSelect) {
+        [...serviceSelect.options].forEach((opt) => {
+          if (
+            opt.textContent.trim().toLowerCase() ===
+            savedService.toLowerCase()
+          ) {
+            opt.selected = true;
+          }
+        });
+        updateServiceTypeState();
+      }
+    });
+  </script>
+  <script src="js/colorblind.js" defer></script>
+
+</body>
+
+</html>

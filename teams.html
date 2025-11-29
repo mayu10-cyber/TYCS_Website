@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Team</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/style.css">
+  <style>
+    :root {
+      --color-primary: #4f46e5;
+      --color-secondary: #10b981;
+      --color-text: #333;
+      --color-light: #f8f9fa;
+      --transition-default: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--color-text);
+      overflow-x: hidden;
+    }
+
+    .team-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .team-header {
+      text-align: center;
+      padding: 4rem 0;
+      position: relative;
+    }
+
+    .team-heading {
+      margin-top: 50px;
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    .team-description {
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .team-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+      position: relative;
+      padding: 3rem 0;
+    }
+
+    .team-member-card {
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      position: relative;
+      padding: 3rem 0;
+    }
+
+    .team-member-card:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .member-photo-wrapper {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 100%;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transition: var(--transition-default);
+      border: 5px solid white;
+    }
+
+    .member-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-default);
+    }
+
+    .member-details {
+      flex: 1;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+      margin: 0 1rem;
+    }
+
+    .member-name {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .member-name::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      transition: var(--transition-default);
+    }
+
+    .member-position {
+      color: var(--color-primary);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .member-description {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .social-media-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-link-item {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: var(--color-primary);
+      transition: var(--transition-default);
+      text-decoration: none;
+      font-size: 1.1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-link-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: var(--transition-default);
+    }
+
+    .social-link-item:hover::before {
+      left: 100%;
+    }
+
+    .social-link-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .social-email {
+      background-color: #ea4335;
+    }
+
+    .social-linkedin {
+      background-color: #0a66c2;
+    }
+
+    .social-facebook {
+      background-color: #1877f2;
+    }
+
+    .social-instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+
+    /* Blob shapes */
+    .background-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.15;
+      z-index: 1;
+    }
+
+    .blob-primary {
+      width: 400px;
+      height: 400px;
+      background: var(--color-primary);
+      top: 10%;
+      left: -10%;
+      animation: floatAnimation 12s ease-in-out infinite;
+    }
+
+    .blob-secondary {
+      width: 500px;
+      height: 500px;
+      background: var(--color-secondary);
+      bottom: 10%;
+      right: -10%;
+      animation: floatAnimation 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatAnimation {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-40px) rotate(5deg);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .team-member-card {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 2rem 0;
+      }
+
+      .team-member-card:nth-child(even) {
+        flex-direction: column;
+      }
+
+      .member-photo-wrapper {
+        width: 250px;
+        height: 250px;
+      }
+
+      .member-details {
+        text-align: center;
+        padding: 0;
+      }
+
+      .member-name::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .social-media-links {
+        justify-content: center;
+      }
+
+      .blob-primary,
+      .blob-secondary {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .team-container {
+        padding: 1rem;
+      }
+
+      .team-header {
+        padding: 2rem 0;
+      }
+
+      .member-photo-wrapper {
+        width: 200px;
+        height: 200px;
+      }
+
+      .team-list {
+        gap: 3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="nav-left-group">
+        <div class="nav-brand">
+          <img src="Home/TYCS3.dffac8614160bdfff849.png" alt="logo" width="220" />
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+
+      <ul class="nav-list">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="booking.html" class="nav-link">Book Service</a></li>
+        <li><a href="teams.html" class="nav-link active">Teams</a></li>
+        <li><a href="contactus.html" class="nav-link">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="accessibility-gear" id="accessibilityGear">
+    <i class="fas fa-cog"></i>
+  </div>
+
+  <div class="accessibility-menu" id="accessibilityMenu">
+    <div class="accessibility-header">Accessibility Menu</div>
+
+    <div class="accessibility-item">
+      <i class="fas fa-eye accessibility-icon"></i>
+      Color Blind Mode
+      <label class="accessibility-toggle">
+        <input type="checkbox" id="colorBlindToggle">
+        <span class="accessibility-slider"></span>
+      </label>
+    </div>
+
+    <div class="accessibility-item">
+      <i class="fas fa-file-invoice-dollar accessibility-icon"></i>
+      Get Quote
+    </div>
+
+    <div class="accessibility-divider"></div>
+
+    <div class="accessibility-item">
+      <i class="fas fa-microphone accessibility-icon"></i>
+      Voice Control
+      <label class="accessibility-toggle">
+        <input type="checkbox" checked>
+        <span class="accessibility-slider"></span>
+      </label>
+    </div>
+
+    <div class="accessibility-item">
+      <i class="fas fa-comment-alt accessibility-icon"></i>
+      Hover to Speak
+      <label class="accessibility-toggle">
+        <input type="checkbox">
+        <span class="accessibility-slider"></span>
+      </label>
+    </div>
+
+    <div class="accessibility-item accessibility-language-item" id="accessibilityLanguageItem">
+      <i class="fas fa-globe accessibility-icon"></i>
+      Language
+      <span class="accessibility-language-selector">
+        <span id="accessibilityCurrentLanguage">English</span>
+        <i class="fas fa-chevron-down"></i>
+      </span>
+
+      <div class="accessibility-language-dropdown" id="accessibilityLanguageDropdown">
+        <div class="accessibility-language-footer">
+          <button class="accessibility-cancel-btn" id="accessibilityCancelLanguage">Cancel</button>
+        </div>
+        <div class="accessibility-language-option" data-value="af">Afrikaans</div>
+        <div class="accessibility-language-option" data-value="sq">Albanian</div>
+        <div class="accessibility-language-option" data-value="am">Amharic</div>
+        <div class="accessibility-language-option" data-value="ar">Arabic</div>
+        <div class="accessibility-language-option" data-value="hy">Armenian</div>
+        <div class="accessibility-language-option" data-value="az">Azerbaijani</div>
+        <div class="accessibility-language-option" data-value="eu">Basque</div>
+        <div class="accessibility-language-option" data-value="be">Belarusian</div>
+        <div class="accessibility-language-option" data-value="bn">Bengali</div>
+        <div class="accessibility-language-option" data-value="bs">Bosnian</div>
+        <div class="accessibility-language-option" data-value="bg">Bulgarian</div>
+        <div class="accessibility-language-option" data-value="ca">Catalan</div>
+        <div class="accessibility-language-option" data-value="ceb">Cebuano</div>
+        <div class="accessibility-language-option" data-value="ny">Chichewa</div>
+        <div class="accessibility-language-option" data-value="zh-CN">Chinese (Simplified)</div>
+        <div class="accessibility-language-option" data-value="zh-TW">Chinese (Traditional)</div>
+        <div class="accessibility-language-option" data-value="co">Corsican</div>
+        <div class="accessibility-language-option" data-value="hr">Croatian</div>
+        <div class="accessibility-language-option" data-value="cs">Czech</div>
+        <div class="accessibility-language-option" data-value="da">Danish</div>
+        <div class="accessibility-language-option" data-value="nl">Dutch</div>
+        <div class="accessibility-language-option" data-value="en">English</div>
+        <div class="accessibility-language-option" data-value="eo">Esperanto</div>
+        <div class="accessibility-language-option" data-value="et">Estonian</div>
+        <div class="accessibility-language-option" data-value="tl">Filipino</div>
+        <div class="accessibility-language-option" data-value="fi">Finnish</div>
+        <div class="accessibility-language-option" data-value="fr">French</div>
+        <div class="accessibility-language-option" data-value="fy">Frisian</div>
+        <div class="accessibility-language-option" data-value="gl">Galician</div>
+        <div class="accessibility-language-option" data-value="ka">Georgian</div>
+        <div class="accessibility-language-option" data-value="de">German</div>
+        <div class="accessibility-language-option" data-value="el">Greek</div>
+        <div class="accessibility-language-option" data-value="gu">Gujarati</div>
+        <div class="accessibility-language-option" data-value="ht">Haitian Creole</div>
+        <div class="accessibility-language-option" data-value="ha">Hausa</div>
+        <div class="accessibility-language-option" data-value="haw">Hawaiian</div>
+        <div class="accessibility-language-option" data-value="iw">Hebrew</div>
+        <div class="accessibility-language-option" data-value="hi">Hindi</div>
+        <div class="accessibility-language-option" data-value="hmn">Hmong</div>
+        <div class="accessibility-language-option" data-value="hu">Hungarian</div>
+        <div class="accessibility-language-option" data-value="is">Icelandic</div>
+        <div class="accessibility-language-option" data-value="ig">Igbo</div>
+        <div class="accessibility-language-option" data-value="id">Indonesian</div>
+        <div class="accessibility-language-option" data-value="ga">Irish</div>
+        <div class="accessibility-language-option" data-value="it">Italian</div>
+        <div class="accessibility-language-option" data-value="ja">Japanese</div>
+        <div class="accessibility-language-option" data-value="jw">Javanese</div>
+        <div class="accessibility-language-option" data-value="kn">Kannada</div>
+        <div class="accessibility-language-option" data-value="kk">Kazakh</div>
+        <div class="accessibility-language-option" data-value="km">Khmer</div>
+        <div class="accessibility-language-option" data-value="ko">Korean</div>
+        <div class="accessibility-language-option" data-value="ku">Kurdish (Kurmanji)</div>
+        <div class="accessibility-language-option" data-value="ky">Kyrgyz</div>
+        <div class="accessibility-language-option" data-value="lo">Lao</div>
+        <div class="accessibility-language-option" data-value="la">Latin</div>
+        <div class="accessibility-language-option" data-value="lv">Latvian</div>
+        <div class="accessibility-language-option" data-value="lt">Lithuanian</div>
+        <div class="accessibility-language-option" data-value="lb">Luxembourgish</div>
+        <div class="accessibility-language-option" data-value="mk">Macedonian</div>
+        <div class="accessibility-language-option" data-value="mg">Malagasy</div>
+        <div class="accessibility-language-option" data-value="ms">Malay</div>
+        <div class="accessibility-language-option" data-value="ml">Malayalam</div>
+        <div class="accessibility-language-option" data-value="mt">Maltese</div>
+        <div class="accessibility-language-option" data-value="mi">Maori</div>
+        <div class="accessibility-language-option" data-value="mr">Marathi</div>
+        <div class="accessibility-language-option" data-value="mn">Mongolian</div>
+        <div class="accessibility-language-option" data-value="my">Myanmar (Burmese)</div>
+        <div class="accessibility-language-option" data-value="ne">Nepali</div>
+        <div class="accessibility-language-option" data-value="no">Norwegian</div>
+        <div class="accessibility-language-option" data-value="ps">Pashto</div>
+        <div class="accessibility-language-option" data-value="fa">Persian</div>
+        <div class="accessibility-language-option" data-value="pl">Polish</div>
+        <div class="accessibility-language-option" data-value="pt">Portuguese</div>
+        <div class="accessibility-language-option" data-value="pa">Punjabi</div>
+        <div class="accessibility-language-option" data-value="ro">Romanian</div>
+        <div class="accessibility-language-option" data-value="ru">Russian</div>
+        <div class="accessibility-language-option" data-value="sm">Samoan</div>
+        <div class="accessibility-language-option" data-value="gd">Scots Gaelic</div>
+        <div class="accessibility-language-option" data-value="sr">Serbian</div>
+        <div class="accessibility-language-option" data-value="st">Sesotho</div>
+        <div class="accessibility-language-option" data-value="sn">Shona</div>
+        <div class="accessibility-language-option" data-value="sd">Sindhi</div>
+        <div class="accessibility-language-option" data-value="si">Sinhala</div>
+        <div class="accessibility-language-option" data-value="sk">Slovak</div>
+        <div class="accessibility-language-option" data-value="sl">Slovenian</div>
+        <div class="accessibility-language-option" data-value="so">Somali</div>
+        <div class="accessibility-language-option" data-value="es">Spanish</div>
+        <div class="accessibility-language-option" data-value="su">Sundanese</div>
+        <div class="accessibility-language-option" data-value="sw">Swahili</div>
+        <div class="accessibility-language-option" data-value="sv">Swedish</div>
+        <div class="accessibility-language-option" data-value="tg">Tajik</div>
+        <div class="accessibility-language-option" data-value="ta">Tamil</div>
+        <div class="accessibility-language-option" data-value="te">Telugu</div>
+        <div class="accessibility-language-option" data-value="th">Thai</div>
+        <div class="accessibility-language-option" data-value="tr">Turkish</div>
+        <div class="accessibility-language-option" data-value="uk">Ukrainian</div>
+        <div class="accessibility-language-option" data-value="ur">Urdu</div>
+        <div class="accessibility-language-option" data-value="uz">Uzbek</div>
+        <div class="accessibility-language-option" data-value="vi">Vietnamese</div>
+        <div class="accessibility-language-option" data-value="cy">Welsh</div>
+        <div class="accessibility-language-option" data-value="xh">Xhosa</div>
+        <div class="accessibility-language-option" data-value="yi">Yiddish</div>
+        <div class="accessibility-language-option" data-value="yo">Yoruba</div>
+        <div class="accessibility-language-option" data-value="zu">Zulu</div>
+
+      </div>
+    </div>
+  </div>
+  <section class="bg2">
+    <div class=" team-container">
+      <div id="centerstatement">
+        <h2 class="team-heading">
+          Our <span style="color: #059669">Dedicated & Experienced </span>Team
+        </h2>
+      </div>
+
+      <div class="team-list">
+        <!-- Member 1 -->
+
+        <div class="team-member-card">
+          <div class="member-photo-wrapper">
+            <img src="Images-team/Tejas.676859ad2a05c151d32c.png" alt="Sarah Williams" class="member-photo">
+          </div>
+          <div class="member-details">
+            <h3 class="member-name">Tejas Relekar</h3>
+            <p class="member-position">Bachelor of Engineering in IT</p>
+            <p class="member-description"> Tejas has over ten years of experience in the IT field, with
+              expertise in IoT devices, IT security, IT services, hardware and
+              electronics.</p>
+            <div class="social-media-links">
+              <a href="mailto:tejyashcybersolution@gmail.com" class="social-link-item social-email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/tejas-relekar-a444527b/" class="social-link-item social-linkedin"
+                aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=100017573707461" class="social-link-item social-facebook"
+                aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/tejyashcybersolutions/" class="social-link-item social-instagram"
+                aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Member 2 -->
+        <div class="team-member-card">
+          <div class="member-photo-wrapper">
+            <img src="Images-team/kiran.a273f8e867f7a843b039.jpg" alt="Alex Johnson" class="member-photo">
+          </div>
+          <div class="member-details">
+            <h3 class="member-name">Kiran Relekar</h3>
+            <p class="member-position">Bachelor of Engineering in Electronics</p>
+            <p class="member-description">Kiran has over five years of experience in the electronics field,
+              specializing in electronic hardware repair and computer assembly.</p>
+            <div class="social-media-links">
+              <a href="mailto:tejyashcybersolution@gmail.com" class="social-link-item social-email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/kiran-relekar-559bbb144/" class="social-link-item social-linkedin"
+                aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://www.facebook.com/relekarkiran" class="social-link-item social-facebook"
+                aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/relekarkiran/" class="social-link-item social-instagram"
+                aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="team-member-card">
+          <div class="member-photo-wrapper">
+            <img src="Images-team/UserImage.a6143582309785dca610.png" alt="Michael Chen" class="member-photo">
+          </div>
+          <div class="member-details">
+            <h3 class="member-name">Sagar Tukrul</h3>
+            <p class="member-position">Bachelor of Engineering in EXTC</p>
+            <p class="member-description">Sagar has over five years of experience in the embedded and
+              software
+              field, specializing in both embedded hardware and software
+              development.</p>
+            <div class="social-media-links">
+              <a href="mailto:tejyashcybersolution@gmail.com" class="social-link-item social-email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/sagar-tukrul-9abb67188/" class="social-link-item social-linkedin"
+                aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://www.facebook.com/sagarsureahtukrul.sagar" class="social-link-item social-facebook"
+                aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/sagartuk/" class="social-link-item social-instagram"
+                aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 4 -->
+        <div class="team-member-card">
+          <div class="member-photo-wrapper">
+            <img src="Images-team/zuber1.b74d338e304945f559d0.jpeg" alt="Emma Rodriguez" class="member-photo">
+          </div>
+          <div class="member-details">
+            <h3 class="member-name">Zubair</h3>
+            <p class="member-position">Engineer</p>
+            <p class="member-description">Zubair has over two years of hands-on experience in computer and
+              laptop repair and resolving hardware and software issues.</p>
+            <div class="social-media-links">
+              <a href="mailto:tejyashcybersolution@gmail.com" class="social-link-item social-email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://www.tycs.in/" class="social-link-item social-linkedin" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://www.facebook.com/people/Tejas-Relekar/pfbid02RtZnSGnkfo83szYPBxm9b7GtB1yPM6WeaLebh9Y92ZcifNqLC2n5FF5FQy1aP8ail/"
+                class="social-link-item social-facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/tejyashcybersolutions/" class="social-link-item social-instagram"
+                aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member 5 -->
+        <div class="team-member-card">
+          <div class="member-photo-wrapper">
+            <img src="Images-team/Vaishnavi1.d79b1b7d007c98d4accd.jpeg" alt="David Kim" class="member-photo">
+          </div>
+          <div class="member-details">
+            <h3 class="member-name">Vaishanvi Ghade</h3>
+            <p class="member-position">Asset Manager</p>
+            <p class="member-description">Vaishnavi has strong expertise in asset management, which involves
+              efficiently managing and optimizing assets throughout their
+              lifecycle.</p>
+            <div class="social-media-links">
+              <a href="mailto:tejyashcybersolution@gmail.com" class="social-link-item social-email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://www.tycs.in/" class="social-link-item social-linkedin" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://www.facebook.com/people/Tejas-Relekar/pfbid02RtZnSGnkfo83szYPBxm9b7GtB1yPM6WeaLebh9Y92ZcifNqLC2n5FF5FQy1aP8ail/"
+                class="social-link-item social-facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/tejyashcybersolutions/" class="social-link-item social-instagram"
+                aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+    // Interactive elements
+    document.addEventListener('DOMContentLoaded', () => {
+      // Image hover effect
+      const memberPhotos = document.querySelectorAll('.member-photo-wrapper');
+
+      memberPhotos.forEach(container => {
+        const img = container.querySelector('.member-photo');
+
+        container.addEventListener('mouseenter', () => {
+          img.style.transform = 'scale(1.05)';
+          container.style.boxShadow = '0 25px 50px rgba(0,0,0,0.15)';
+        });
+
+        container.addEventListener('mouseleave', () => {
+          img.style.transform = 'scale(1)';
+          container.style.boxShadow = '0 20px 40px rgba(0,0,0,0.1)';
+        });
+      });
+
+      // Scroll animation
+      const teamMembers = document.querySelectorAll('.team-member-card');
+
+      const animateOnScroll = () => {
+        teamMembers.forEach((member, index) => {
+          const memberTop = member.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+
+          if (memberTop < windowHeight * 0.75) {
+            setTimeout(() => {
+              member.style.opacity = '1';
+              member.style.transform = 'translateY(0)';
+            }, index * 150);
+          }
+        });
+      };
+
+      // Initialize positions
+      teamMembers.forEach(member => {
+        member.style.opacity = '0';
+        member.style.transform = 'translateY(30px)';
+        member.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      });
+
+      // Initial check
+      animateOnScroll();
+
+      // Check on scroll
+      window.addEventListener('scroll', animateOnScroll);
+    });
+  </script>
+
+  <footer class="custom-footer-container">
+    <div class="custom-footer-content">
+      <div class="custom-footer-social">Follow us on</div>
+
+      <div class="custom-social-icons">
+        <a href="https://www.facebook.com/people/Tejas-Relekar/pfbid0MjZez9ArNDpYPo3cdmBAQywMafrKrbVAVbAG2hpzpzbE3TYh6g4JbEhR33zyui8Gl/"
+          target="_blank" class="custom-social-icon"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/tejyashcybersolutions/" target="_blank"
+          class="custom-social-icon instagram"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:tejyashcybersoltuion@gmail.com" class="custom-social-icon mail"><i
+            class="fas fa-envelope"></i></a>
+      </div>
+
+      <div class="custom-footer-links">
+        <a href="index.html" class="custom-footer-link">Home</a>
+        <a href="#" class="custom-footer-link" style="color: white;">|</a>
+        <a href="booking.html" class="custom-footer-link">Book Services</a>
+        <a href="#" class="custom-footer-link" style="color: white;">|</a>
+        <a href="#tcs-about-section" class="custom-footer-link">About us</a>
+        <a href="#" class="custom-footer-link" style="color: white;">|</a>
+        <a href="#faq" class="custom-footer-link">FAQ</a>
+        <a href="#" class="custom-footer-link" style="color: white;">|</a>
+        <a href="teams.html" class="custom-footer-link">Team</a>
+        <a href="#" class="custom-footer-link" style="color: white;">|</a>
+        <a href="contactus.html" class="custom-footer-link">Contact us</a>
+      </div>
+
+      <div class="custom-footer-copyright">
+        Copyright © 2023 TEJYASH CYBER SOLUTIONS Company. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script src="JS/mobile.js"></script>
+
+  <script src="JS/gear.js"></script>
+
+  <script src="JS/language-selector.js"></script>
+
+  <script src="JS/pop-up2.js"></script>
+
+  <script src="JS/voicecontrol.js"></script>
+
+  <script src="JS/hovertospeak.js"></script>
+
+  <script src="js/colorblind.js" defer></script>
+
+  <script src="JS/color.js"></script>
+
+</body>
+
+</html>

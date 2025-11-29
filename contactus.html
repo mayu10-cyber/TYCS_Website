@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tejyash Cyber Solutions</title>
+    <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/contactus.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #scrollIndicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 0%;
+            background-color: #09e485;
+            z-index: 9999;
+        }
+
+        #notificationBox {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            display: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .warning {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .info {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            border: 1px solid #3b82f6;
+        }
+
+        #retryBtn {
+            margin-left: 12px;
+            font-size: 14px;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+        .goog-te-gadget .goog-te-combo {
+            margin: 4px 0;
+        }
+
+        .goog-te-combo,
+        .VIpgJd-ZVi9od-ORHb *,
+        .VIpgJd-ZVi9od-SmfZ *,
+        .VIpgJd-ZVi9od-xl07Ob *,
+        .VIpgJd-ZVi9od-vH1Gmf *,
+        .VIpgJd-ZVi9od-l9xktf * {
+            font-family: arial;
+            font-size: 10pt;
+        }
+
+        .goog-te-combo {
+            margin-left: 4px;
+            margin-right: 4px;
+            vertical-align: baseline;
+        }
+
+        .goog-te-combo {
+            background: white;
+            border-radius: 4px;
+            padding: 4px;
+            border: 1px solid #ccc;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        *,
+        :after,
+        :before {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-left-group">
+                <div class="nav-brand">
+                    <img src="Home/TYCS3.dffac8614160bdfff849.png" alt="logo" width="220" />
+                </div>
+            </div>
+            <button class="menu-toggle">☰</button>
+
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="booking.html" class="nav-link">Book Service</a></li>
+                <li><a href="teams.html" class="nav-link">Teams</a></li>
+                <li><a href="contactus.html" class="nav-link active">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="accessibility-gear" id="accessibilityGear">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <!-- Utility Popup Menu -->
+    <div class="accessibility-menu" id="accessibilityMenu">
+        <div class="accessibility-header">Accessibility Menu</div>
+
+        <div class="accessibility-item">
+            <i class="fas fa-eye accessibility-icon"></i>
+            Color Blind Mode
+            <label class="accessibility-toggle">
+                <input type="checkbox" id="colorBlindToggle">
+                <span class="accessibility-slider"></span>
+            </label>
+        </div>
+
+        <div class="accessibility-item">
+            <i class="fas fa-file-invoice-dollar accessibility-icon"></i>
+            Get Quote
+        </div>
+
+        <div class="accessibility-divider"></div>
+
+        <div class="accessibility-item">
+            <i class="fas fa-microphone accessibility-icon"></i>
+            Voice Control
+            <label class="accessibility-toggle">
+                <input type="checkbox" checked>
+                <span class="accessibility-slider"></span>
+            </label>
+        </div>
+
+        <div class="accessibility-item">
+            <i class="fas fa-comment-alt accessibility-icon"></i>
+            Hover to Speak
+            <label class="accessibility-toggle">
+                <input type="checkbox">
+                <span class="accessibility-slider"></span>
+            </label>
+        </div>
+
+        <div class="accessibility-item accessibility-language-item" id="accessibilityLanguageItem">
+            <i class="fas fa-globe accessibility-icon"></i>
+            Language
+            <span class="accessibility-language-selector">
+                <span id="accessibilityCurrentLanguage">English</span>
+                <i class="fas fa-chevron-down"></i>
+            </span>
+
+            <div class="accessibility-language-dropdown" id="accessibilityLanguageDropdown">
+                <div class="accessibility-language-footer">
+                    <button class="accessibility-cancel-btn" id="accessibilityCancelLanguage">Cancel</button>
+                </div>
+                <div class="accessibility-language-option" data-value="af">Afrikaans</div>
+                <div class="accessibility-language-option" data-value="sq">Albanian</div>
+                <div class="accessibility-language-option" data-value="am">Amharic</div>
+                <div class="accessibility-language-option" data-value="ar">Arabic</div>
+                <div class="accessibility-language-option" data-value="hy">Armenian</div>
+                <div class="accessibility-language-option" data-value="az">Azerbaijani</div>
+                <div class="accessibility-language-option" data-value="eu">Basque</div>
+                <div class="accessibility-language-option" data-value="be">Belarusian</div>
+                <div class="accessibility-language-option" data-value="bn">Bengali</div>
+                <div class="accessibility-language-option" data-value="bs">Bosnian</div>
+                <div class="accessibility-language-option" data-value="bg">Bulgarian</div>
+                <div class="accessibility-language-option" data-value="ca">Catalan</div>
+                <div class="accessibility-language-option" data-value="ceb">Cebuano</div>
+                <div class="accessibility-language-option" data-value="ny">Chichewa</div>
+                <div class="accessibility-language-option" data-value="zh-CN">Chinese (Simplified)</div>
+                <div class="accessibility-language-option" data-value="zh-TW">Chinese (Traditional)</div>
+                <div class="accessibility-language-option" data-value="co">Corsican</div>
+                <div class="accessibility-language-option" data-value="hr">Croatian</div>
+                <div class="accessibility-language-option" data-value="cs">Czech</div>
+                <div class="accessibility-language-option" data-value="da">Danish</div>
+                <div class="accessibility-language-option" data-value="nl">Dutch</div>
+                <div class="accessibility-language-option" data-value="en">English</div>
+                <div class="accessibility-language-option" data-value="eo">Esperanto</div>
+                <div class="accessibility-language-option" data-value="et">Estonian</div>
+                <div class="accessibility-language-option" data-value="tl">Filipino</div>
+                <div class="accessibility-language-option" data-value="fi">Finnish</div>
+                <div class="accessibility-language-option" data-value="fr">French</div>
+                <div class="accessibility-language-option" data-value="fy">Frisian</div>
+                <div class="accessibility-language-option" data-value="gl">Galician</div>
+                <div class="accessibility-language-option" data-value="ka">Georgian</div>
+                <div class="accessibility-language-option" data-value="de">German</div>
+                <div class="accessibility-language-option" data-value="el">Greek</div>
+                <div class="accessibility-language-option" data-value="gu">Gujarati</div>
+                <div class="accessibility-language-option" data-value="ht">Haitian Creole</div>
+                <div class="accessibility-language-option" data-value="ha">Hausa</div>
+                <div class="accessibility-language-option" data-value="haw">Hawaiian</div>
+                <div class="accessibility-language-option" data-value="iw">Hebrew</div>
+                <div class="accessibility-language-option" data-value="hi">Hindi</div>
+                <div class="accessibility-language-option" data-value="hmn">Hmong</div>
+                <div class="accessibility-language-option" data-value="hu">Hungarian</div>
+                <div class="accessibility-language-option" data-value="is">Icelandic</div>
+                <div class="accessibility-language-option" data-value="ig">Igbo</div>
+                <div class="accessibility-language-option" data-value="id">Indonesian</div>
+                <div class="accessibility-language-option" data-value="ga">Irish</div>
+                <div class="accessibility-language-option" data-value="it">Italian</div>
+                <div class="accessibility-language-option" data-value="ja">Japanese</div>
+                <div class="accessibility-language-option" data-value="jw">Javanese</div>
+                <div class="accessibility-language-option" data-value="kn">Kannada</div>
+                <div class="accessibility-language-option" data-value="kk">Kazakh</div>
+                <div class="accessibility-language-option" data-value="km">Khmer</div>
+                <div class="accessibility-language-option" data-value="ko">Korean</div>
+                <div class="accessibility-language-option" data-value="ku">Kurdish (Kurmanji)</div>
+                <div class="accessibility-language-option" data-value="ky">Kyrgyz</div>
+                <div class="accessibility-language-option" data-value="lo">Lao</div>
+                <div class="accessibility-language-option" data-value="la">Latin</div>
+                <div class="accessibility-language-option" data-value="lv">Latvian</div>
+                <div class="accessibility-language-option" data-value="lt">Lithuanian</div>
+                <div class="accessibility-language-option" data-value="lb">Luxembourgish</div>
+                <div class="accessibility-language-option" data-value="mk">Macedonian</div>
+                <div class="accessibility-language-option" data-value="mg">Malagasy</div>
+                <div class="accessibility-language-option" data-value="ms">Malay</div>
+                <div class="accessibility-language-option" data-value="ml">Malayalam</div>
+                <div class="accessibility-language-option" data-value="mt">Maltese</div>
+                <div class="accessibility-language-option" data-value="mi">Maori</div>
+                <div class="accessibility-language-option" data-value="mr">Marathi</div>
+                <div class="accessibility-language-option" data-value="mn">Mongolian</div>
+                <div class="accessibility-language-option" data-value="my">Myanmar (Burmese)</div>
+                <div class="accessibility-language-option" data-value="ne">Nepali</div>
+                <div class="accessibility-language-option" data-value="no">Norwegian</div>
+                <div class="accessibility-language-option" data-value="ps">Pashto</div>
+                <div class="accessibility-language-option" data-value="fa">Persian</div>
+                <div class="accessibility-language-option" data-value="pl">Polish</div>
+                <div class="accessibility-language-option" data-value="pt">Portuguese</div>
+                <div class="accessibility-language-option" data-value="pa">Punjabi</div>
+                <div class="accessibility-language-option" data-value="ro">Romanian</div>
+                <div class="accessibility-language-option" data-value="ru">Russian</div>
+                <div class="accessibility-language-option" data-value="sm">Samoan</div>
+                <div class="accessibility-language-option" data-value="gd">Scots Gaelic</div>
+                <div class="accessibility-language-option" data-value="sr">Serbian</div>
+                <div class="accessibility-language-option" data-value="st">Sesotho</div>
+                <div class="accessibility-language-option" data-value="sn">Shona</div>
+                <div class="accessibility-language-option" data-value="sd">Sindhi</div>
+                <div class="accessibility-language-option" data-value="si">Sinhala</div>
+                <div class="accessibility-language-option" data-value="sk">Slovak</div>
+                <div class="accessibility-language-option" data-value="sl">Slovenian</div>
+                <div class="accessibility-language-option" data-value="so">Somali</div>
+                <div class="accessibility-language-option" data-value="es">Spanish</div>
+                <div class="accessibility-language-option" data-value="su">Sundanese</div>
+                <div class="accessibility-language-option" data-value="sw">Swahili</div>
+                <div class="accessibility-language-option" data-value="sv">Swedish</div>
+                <div class="accessibility-language-option" data-value="tg">Tajik</div>
+                <div class="accessibility-language-option" data-value="ta">Tamil</div>
+                <div class="accessibility-language-option" data-value="te">Telugu</div>
+                <div class="accessibility-language-option" data-value="th">Thai</div>
+                <div class="accessibility-language-option" data-value="tr">Turkish</div>
+                <div class="accessibility-language-option" data-value="uk">Ukrainian</div>
+                <div class="accessibility-language-option" data-value="ur">Urdu</div>
+                <div class="accessibility-language-option" data-value="uz">Uzbek</div>
+                <div class="accessibility-language-option" data-value="vi">Vietnamese</div>
+                <div class="accessibility-language-option" data-value="cy">Welsh</div>
+                <div class="accessibility-language-option" data-value="xh">Xhosa</div>
+                <div class="accessibility-language-option" data-value="yi">Yiddish</div>
+                <div class="accessibility-language-option" data-value="yo">Yoruba</div>
+                <div class="accessibility-language-option" data-value="zu">Zulu</div>
+
+            </div>
+        </div>
+    </div>
+
+    <main>
+
+        <section id="contact" class="bg-white px-6 lg:px-20 py-16 transition duration-500">
+            <h2 class="text-4xl font-bold text-center mb-12 text-black" tabindex="0" data-aos="zoom-in">Contact <span
+                    class="text-emerald-600">Us</span></h2>
+
+            <div class="mb-10">
+                <div class="flex flex-col lg:flex-row gap-6">
+
+                    <div class="w-full lg:w-1/3 bg-gray-100 p-6 rounded-2xl shadow-lg space-y-4">
+                        <h3 class="text-xl font-semibold text-emerald-600">Choose Location:</h3>
+
+                        <!-- Toggle Button -->
+                        <button id="location-button" onclick="toggleDropdown()"
+                            class="w-full px-4 py-2 bg-emerald-500 text-white rounded-xl flex justify-between items-center">
+                            Select a Location
+                            <svg id="dropdownIcon" class="w-5 h-5 transition-transform duration-300 transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown List -->
+                        <ul id="locationList" class="space-y-2 mt-2 hidden transition-all duration-300 ease-in-out">
+                            <li class="focusable" tabindex="0">
+                                <button onclick="setMapLocation('T1')"
+                                    class="w-full px-4 py-2 bg-emerald-500 text-white rounded-xl hover:scale-105 transition">Tejyash
+                                    Cyber Solutions (Head Office)</button>
+                            </li>
+                            <li class="focusable" tabindex="0">
+                                <button onclick="setMapLocation('T2')"
+                                    class="w-full px-4 py-2 bg-emerald-500 text-white rounded-xl hover:scale-105 transition">Tejyash
+                                    Cyber Solutions (Santacruz-Branch)</button>
+                            </li>
+                            <li class="focusable" tabindex="0">
+                                <button onclick="setMapLocation('T3')"
+                                    class="w-full px-4 py-2 bg-emerald-500 text-white rounded-xl hover:scale-105 transition">Tejyash
+                                    Cyber Solutions (Ghodapdeo-Branch)</button>
+                            </li>
+                            <li class="focusable" tabindex="0">
+                                <button onclick="setMapLocation('T4')"
+                                    class="w-full px-4 py-2 bg-emerald-500 text-white rounded-xl hover:scale-105 transition">Tejyash
+                                    Cyber Solutions (Andheri-Branch)</button>
+                            </li>
+                        </ul>
+
+                        <!-- Share Map Button -->
+                        <div>
+                            <button onclick="shareMap()"
+                                class="w-full px-4 py-2 bg-gray-700 text-white rounded-xl hover:scale-105 transition focusable"
+                                tabindex="0">
+                                📤 Share Map
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Copy Popup -->
+                    <div id="copyPopup"
+                        class="fixed left-1/2 -translate-x-1/2 top-4 bg-gray-500 text-white text-sm px-3 py-1.5 rounded-md shadow-lg hidden z-50 max-w-xs">
+                        Link copied!
+                    </div>
+
+                    <!-- Map Display -->
+                    <div class="w-full lg:w-2/3 ">
+                        <iframe id="mapFrame" class="w-full h-96 rounded-2xl shadow-lg " data-aos="fade-up"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241488.11180738496!2d72.56469623281248!3d18.964486200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce3664a78525%3A0x432a3c0c32d32a2e!2sTejyash%20Cyber%20Solutions!5e0!3m2!1sen!2sin!4v1749550030196!5m2!1sen!2sin"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" frameborder="0" allowfullscreen
+                            tabindex="-1"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- contact service -->
+
+            <div class="divcenter">
+                <div class="map-form-container">
+                    <form>
+                        <div class="form-group">
+                            <div>
+                                <p>
+                                    <strong style="color: green ;">Contact Us:</strong>
+                                    <a href="tel:+91-9867715690"> 📞 <u>+91-9867715690</u></a> /
+                                    <a href="tel:+91-7977060816"><u>+91-7977060816</u></a>
+                                    <br>
+                                    <br>
+                                </p>
+                                <p>
+                                    <strong style="color: green">Email-ID:</strong>
+                                    <a href="mailto:tejyashcybersolutions@gmail.com">📩
+                                        <u>tejyashcybersolutions@gmail.com</u></a>
+                                    <br>
+                                    <br>
+                                </p>
+                                <p>
+                                    <strong style="color: green">WhatsApp:</strong>
+                                    <a href="https://api.whatsapp.com/send/?phone=7977060816"><u>Tejyash Cyber
+                                            Soltuions</u></a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                    <form>
+                        <div class="form-group">
+                            <div>
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div>
+                                <label for="email">Email Address:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="contact">Contact Number:</label>
+                                <input type="text" id="contact" name="contact">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="message">Message:</label>
+                                <textarea id="message" name="message"></textarea>
+                            </div>
+                        </div>
+                        <button id="submit"
+                            class="w-full px-4 py-2 bg-emerald-500 text-white rounded-xl hover:scale-105 transition">Submit</button>
+                    </form>
+                </div>
+            </div>
+    </main>
+
+    <!-- copy right reserved -->
+    <footer class="custom-footer-container">
+        <div class="custom-footer-content">
+            <div class="custom-footer-social">Follow us on</div>
+
+            <div class="custom-social-icons">
+                <a href="https://www.facebook.com/people/Tejas-Relekar/pfbid0MjZez9ArNDpYPo3cdmBAQywMafrKrbVAVbAG2hpzpzbE3TYh6g4JbEhR33zyui8Gl/"
+                    target="_blank" class="custom-social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/tejyashcybersolutions/" target="_blank"
+                    class="custom-social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:tejyashcybersoltuion@gmail.com" class="custom-social-icon mail"><i
+                        class="fas fa-envelope"></i></a>
+            </div>
+
+            <div class="custom-footer-links">
+                <a href="index.html" class="custom-footer-link">Home</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="booking.html" class="custom-footer-link">Book Services</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="#tcs-about-section" class="custom-footer-link">About us</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="#faq" class="custom-footer-link">FAQ</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="teams.html" class="custom-footer-link">Team</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="contactus.html" class="custom-footer-link">Contact us</a>
+            </div>
+
+            <div class="custom-footer-copyright">
+                Copyright © 2023 TEJYASH CYBER SOLUTIONS Company. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- <script>
+        const embedMapLinks = {
+            T1: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241488.11180738496!2d72.56469623281248!3d18.964486200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce3664a78525%3A0x432a3c0c32d32a2e!2sTejyash%20Cyber%20Solutions!5e0!3m2!1sen!2sin!4v1749550030196!5m2!1sen!2sin",
+            T2: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241488.11180738496!2d72.56469623281248!3d18.964486200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c97e07851f9b%3A0x631ad63e1e15b2d8!2sTejyash%20Cyber%20Solutions%20(Santacruz%20-%20Branch)!5e0!3m2!1sen!2sin!4v1749550226892!5m2!1sen!2sin",
+            T3: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241488.11180738496!2d72.56469623281248!3d18.964486200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cfb4f32637cb%3A0xbb3fc470c9d95a98!2sTejyash%20Cyber%20Solutions%20(Ghodapdeo%20-%20Branch)!5e0!3m2!1sen!2sin!4v1749550317520!5m2!1sen!2sin",
+            T4: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241488.11180738496!2d72.56469623281248!3d18.964486200000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9c2e1c3c9ed%3A0xec85ef38c9f87b6f!2sTejyash%20Cyber%20Solutions%20(Andheri%20-%20Branch)!5e0!3m2!1sen!2sin!4v1749550356329!5m2!1sen!2sin"
+        };
+
+        const shareLinks = {
+            T1: "https://www.google.com/maps/place/Tejyash+Cyber+Solutions/@18.9644862,72.8448476,784m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3be7ce3664a78525:0x432a3c0c32d32a2e!8m2!3d18.9644862!4d72.8448476!16s%2Fg%2F11dxbxrjzx?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D",
+            T2: "https://www.google.com/maps/place/Tejyash+Cyber+Solutions+(Santacruz+-+Branch)/@19.0842273,72.8498342,784m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3be7c97e07851f9b:0x631ad63e1e15b2d8!8m2!3d19.0842273!4d72.8498342!16s%2Fg%2F11j8vmr1v8?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D",
+            T3: "https://www.google.com/maps/place/Tejyash+Cyber+Solutions+(Ghodapdeo+-+Branch)/@18.9820687,72.8411969,784m/data=!3m1!1e3!4m6!3m5!1s0x3be7cfb4f32637cb:0xbb3fc470c9d95a98!8m2!3d18.9820687!4d72.8411969!16s%2Fg%2F11sfdkmlkv?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D",
+            T4: "https://www.google.com/maps/place/Tejyash+Cyber+Solutions+(Andheri+-+Branch)/@19.1197454,72.8623308,783m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3be7c9c2e1c3c9ed:0xec85ef38c9f87b6f!8m2!3d19.1197403!4d72.8649057!16s%2Fg%2F11fsvrhjp8?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D"
+        };
+
+        let currentLocation = "T1";
+
+        function setMapLocation(locationId) {
+            const mapFrame = document.getElementById("mapFrame");
+            currentLocation = locationId;
+
+            if (embedMapLinks[locationId]) {
+                mapFrame.src = embedMapLinks[locationId];
+            }
+
+            document.querySelectorAll('#locationList button').forEach(btn => {
+                btn.classList.toggle('bg-emerald-700', btn.onclick.toString().includes(locationId));
+            });
+        }
+
+        function shareMap() {
+            const shareUrl = shareLinks[currentLocation];
+
+            const shareData = {
+                title: 'Tejyash Cyber Solutions Location',
+                text: 'Check out this Tejyash Cyber Solutions branch:',
+                url: shareUrl
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('Shared successfully!'))
+                    .catch(err => console.error('Sharing failed:', err));
+            } else {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    const popup = document.getElementById("copyPopup");
+                    popup.classList.remove("hidden");
+                    setTimeout(() => popup.classList.add("hidden"), 2000);
+                });
+            }
+        }
+    </script> -->
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script src="JS/mobile.js"></script>
+
+    <script src="JS/language-selector.js"></script>
+
+    <script src="JS/gear.js"></script>
+
+    <script src="JS/pop-up2.js"></script>
+
+    <script src="JS/voicecontrol.js"></script>
+
+    <script src="JS/colorblind.js"></script>
+
+    <script src="JS/script2.js"></script>
+
+    <script src="JS/email.js"></script>
+
+    <script src="JS/hovertospeak.js"></script>
+
+    <script src="js/colorblind.js" defer></script>
+
+</body>
+
+</html>

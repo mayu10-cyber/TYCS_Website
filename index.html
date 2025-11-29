@@ -1,0 +1,930 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tejyash Cyber Solutions</title>
+    <link rel="shortcut icon" href="Favicon/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/chatbot.css">
+    <link rel="stylesheet" href="CSS/card.css">
+</head>
+    
+<body>
+    <header>
+        <nav>
+            <div class="nav-left-group">
+                <div class="nav-brand">
+                    <img src="Home/TYCS3.dffac8614160bdfff849.png" alt="logo" width="320" />
+                </div>
+            </div>
+            <button class="menu-toggle">☰</button>
+
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link active"><span>Home</span></a></li>
+                <li><a href="booking.html" class="nav-link">Book Service</a></li>
+                <li><a href="teams.html" class="nav-link">Teams</a></li>
+                <li><a href="contactus.html" class="nav-link">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="costSidebar">
+        <div class="sidebar-header">
+            <h2 data-i18n="estimator.title">Cost Calculator</h2>
+            <button class="close-btn" id="closeSidebar">&times;</button>
+        </div>
+        <div id="selectedServices" style="display: none;"></div>
+        <div class="sidebar-content">
+            <div class="calculator-steps">
+                <div class="step active" data-step="1">1</div>
+                <div class="step" data-step="2">2</div>
+                <div class="step" data-step="3">3</div>
+            </div>
+
+            <form id="costForm" class="step-content" data-step="1">
+                <div class="form-group">
+                    <label for="serviceType" data-i18n="estimator.serviceType">What service do you need?</label>
+                    <div class="service-options">
+                        <div class="service-option" data-value="repair">
+                            <div class="service-icon">🛠</div>
+                            <span data-i18n="estimator.repair">Repair</span>
+                        </div>
+                        <div class="service-option" data-value="website">
+                            <div class="service-icon">🌐</div>
+                            <span data-i18n="estimator.website">Website</span>
+                        </div>
+                        <div class="service-option" data-value="cctv">
+                            <div class="service-icon">📹</div>
+                            <span data-i18n="estimator.cctv">CCTV</span>
+                        </div>
+                        <div class="service-option" data-value="digital">
+                            <div class="service-icon">📢</div>
+                            <span data-i18n="estimator.digital">Digital Marketing</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="serviceType" required>
+                </div>
+                <button type="button" class="next-btn" data-i18n="estimator.next">Next</button>
+            </form>
+
+            <form id="optionsForm" class="step-content hidden" data-step="2">
+                <div class="form-group" id="serviceOptions"></div>
+                <div class="form-navigation">
+                    <button type="button" class="back-btn" data-i18n="estimator.back">Back</button>
+                    <button type="button" class="next-btn" data-i18n="estimator.next">Next</button>
+                </div>
+            </form>
+
+            <div id="resultsStep" class="step-content hidden" data-step="3">
+                <div class="estimate-result">
+                    <div class="result-icon">💵</div>
+                    <h3 data-i18n="estimator.estimate">Estimated Cost</h3>
+                    <div class="price-display">
+                        <span class="currency">₹</span>
+                        <span id="resultCost">0</span>
+                    </div>
+                    <p class="result-note" data-i18n="estimator.note">* Final price may vary based on actual
+                        requirements</p>
+                </div>
+                <button type="button" class="back-btn" data-i18n="estimator.back">Back</button>
+                <button type="button" class="new-estimate-btn" data-i18n="estimator.new">New Estimate</button>
+            </div>
+        </div>
+    </div>
+
+    <body class="tycs-custom-body">
+        <button id="tycs-chatbotToggle" class="tycs-chatbot-toggle" title="Chatbot"><i
+                class="fas fa-comment-alt"></i></button>
+
+        <div id="tycs-chatbotBox" class="tycs-chatbot-box tycs-hidden">
+            <div class="tycs-chatbot-header">
+                <div class="tycs-chatbot-header-left">
+                    <img src="assets/TYCS.png" alt="TYCS Logo" class="tycs-chatbot-logo" />
+                    <span class="tycs-chatbot-title">TYCS</span>
+                </div>
+                <button id="tycs-closeChatbot" class="tycs-close-btn">×</button>
+            </div>
+
+            <div class="tycs-divider"></div>
+
+            <div id="tycs-chatArea" class="tycs-chat-area"
+                style="background-image: url('/assets/TYCS.png'); background-size: 100px; background-position: center; background-repeat: no-repeat;">
+            </div>
+
+            <div class="tycs-chat-input-area">
+                <input type="file" id="tycs-imageInput" accept="image/*" class="tycs-hidden" />
+                <button id="tycs-uploadImageBtn" title="Upload Image" class="tycs-upload-btn"><i
+                        class="fas fa-image"></i></button>
+                <input type="text" id="tycs-chatInput" placeholder="Type a message..." autocomplete="off"
+                    class="tycs-chat-input" />
+                <button id="tycs-sendMessageBtn" class="tycs-send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </body>
+
+    <div class="accessibility-gear" id="accessibilityGear">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <!-- Utility Popup Menu -->
+    <div class="accessibility-menu" id="accessibilityMenu">
+        <div class="accessibility-header">Accessibility Menu</div>
+
+        <div class="accessibility-item">
+            <i class="fas fa-eye accessibility-icon"></i>
+            Color Blind Mode
+            <label class="accessibility-toggle">
+                <input type="checkbox" id="colorBlindToggle">
+                <span class="accessibility-slider"></span>
+            </label>
+        </div>
+
+        <div class="accessibility-item" id="costEstimatorBtn">
+            <i class="fas fa-file-invoice-dollar accessibility-icon"></i>
+            Get Quotation
+        </div>
+
+        <div class="accessibility-divider"></div>
+
+        <div class="accessibility-item accessibility-voice-toggle">
+            <i class="fas fa-microphone accessibility-icon"></i>
+            Voice Control
+            <label class="accessibility-toggle">
+                <input type="checkbox">
+                <span class="accessibility-slider"></span>
+            </label>
+        </div>
+
+        <div class="accessibility-item" id="accessibilitySpeakItem">
+            <i class="fa fa-volume-up accessibility-icon"></i>
+            Hover to Speak
+            <label class="accessibility-toggle">
+                <input type="checkbox">
+                <span class="accessibility-slider"></span>
+            </label>
+        </div>
+
+        <div class="accessibility-item accessibility-language-item" id="accessibilityLanguageItem">
+            <i class="fas fa-globe accessibility-icon"></i>
+            Language
+            <span class="accessibility-language-selector">
+                <span id="accessibilityCurrentLanguage">English</span>
+                <i class="fas fa-chevron-down"></i>
+            </span>
+
+            <div class="accessibility-language-dropdown" id="accessibilityLanguageDropdown">
+                <div id="google_translate_element" style="display:none"></div>
+                <div class="accessibility-language-footer">
+                    <input type="text" id="languageSearch" placeholder="Search languages..."
+                        class="accessibility-language-search">
+                    <button class="accessibility-cancel-btn" id="accessibilityCancelLanguage">Cancel</button>
+                </div>
+                <div class="accessibility-language-option" data-value="af">Afrikaans</div>
+                <div class="accessibility-language-option" data-value="sq">Albanian</div>
+                <div class="accessibility-language-option" data-value="am">Amharic</div>
+                <div class="accessibility-language-option" data-value="ar">Arabic</div>
+                <div class="accessibility-language-option" data-value="hy">Armenian</div>
+                <div class="accessibility-language-option" data-value="az">Azerbaijani</div>
+                <div class="accessibility-language-option" data-value="eu">Basque</div>
+                <div class="accessibility-language-option" data-value="be">Belarusian</div>
+                <div class="accessibility-language-option" data-value="bn">Bengali</div>
+                <div class="accessibility-language-option" data-value="bs">Bosnian</div>
+                <div class="accessibility-language-option" data-value="bg">Bulgarian</div>
+                <div class="accessibility-language-option" data-value="ca">Catalan</div>
+                <div class="accessibility-language-option" data-value="ceb">Cebuano</div>
+                <div class="accessibility-language-option" data-value="ny">Chichewa</div>
+                <div class="accessibility-language-option" data-value="zh-CN">Chinese (Simplified)</div>
+                <div class="accessibility-language-option" data-value="zh-TW">Chinese (Traditional)</div>
+                <div class="accessibility-language-option" data-value="co">Corsican</div>
+                <div class="accessibility-language-option" data-value="hr">Croatian</div>
+                <div class="accessibility-language-option" data-value="cs">Czech</div>
+                <div class="accessibility-language-option" data-value="da">Danish</div>
+                <div class="accessibility-language-option" data-value="nl">Dutch</div>
+                <div class="accessibility-language-option" data-value="en">English</div>
+                <div class="accessibility-language-option" data-value="eo">Esperanto</div>
+                <div class="accessibility-language-option" data-value="et">Estonian</div>
+                <div class="accessibility-language-option" data-value="tl">Filipino</div>
+                <div class="accessibility-language-option" data-value="fi">Finnish</div>
+                <div class="accessibility-language-option" data-value="fr">French</div>
+                <div class="accessibility-language-option" data-value="fy">Frisian</div>
+                <div class="accessibility-language-option" data-value="gl">Galician</div>
+                <div class="accessibility-language-option" data-value="ka">Georgian</div>
+                <div class="accessibility-language-option" data-value="de">German</div>
+                <div class="accessibility-language-option" data-value="el">Greek</div>
+                <div class="accessibility-language-option" data-value="gu">Gujarati</div>
+                <div class="accessibility-language-option" data-value="ht">Haitian Creole</div>
+                <div class="accessibility-language-option" data-value="ha">Hausa</div>
+                <div class="accessibility-language-option" data-value="haw">Hawaiian</div>
+                <div class="accessibility-language-option" data-value="iw">Hebrew</div>
+                <div class="accessibility-language-option" data-value="hi">Hindi</div>
+                <div class="accessibility-language-option" data-value="hmn">Hmong</div>
+                <div class="accessibility-language-option" data-value="hu">Hungarian</div>
+                <div class="accessibility-language-option" data-value="is">Icelandic</div>
+                <div class="accessibility-language-option" data-value="ig">Igbo</div>
+                <div class="accessibility-language-option" data-value="id">Indonesian</div>
+                <div class="accessibility-language-option" data-value="ga">Irish</div>
+                <div class="accessibility-language-option" data-value="it">Italian</div>
+                <div class="accessibility-language-option" data-value="ja">Japanese</div>
+                <div class="accessibility-language-option" data-value="jw">Javanese</div>
+                <div class="accessibility-language-option" data-value="kn">Kannada</div>
+                <div class="accessibility-language-option" data-value="kk">Kazakh</div>
+                <div class="accessibility-language-option" data-value="km">Khmer</div>
+                <div class="accessibility-language-option" data-value="ko">Korean</div>
+                <div class="accessibility-language-option" data-value="ku">Kurdish (Kurmanji)</div>
+                <div class="accessibility-language-option" data-value="ky">Kyrgyz</div>
+                <div class="accessibility-language-option" data-value="lo">Lao</div>
+                <div class="accessibility-language-option" data-value="la">Latin</div>
+                <div class="accessibility-language-option" data-value="lv">Latvian</div>
+                <div class="accessibility-language-option" data-value="lt">Lithuanian</div>
+                <div class="accessibility-language-option" data-value="lb">Luxembourgish</div>
+                <div class="accessibility-language-option" data-value="mk">Macedonian</div>
+                <div class="accessibility-language-option" data-value="mg">Malagasy</div>
+                <div class="accessibility-language-option" data-value="ms">Malay</div>
+                <div class="accessibility-language-option" data-value="ml">Malayalam</div>
+                <div class="accessibility-language-option" data-value="mt">Maltese</div>
+                <div class="accessibility-language-option" data-value="mi">Maori</div>
+                <div class="accessibility-language-option" data-value="mr">Marathi</div>
+                <div class="accessibility-language-option" data-value="mn">Mongolian</div>
+                <div class="accessibility-language-option" data-value="my">Myanmar (Burmese)</div>
+                <div class="accessibility-language-option" data-value="ne">Nepali</div>
+                <div class="accessibility-language-option" data-value="no">Norwegian</div>
+                <div class="accessibility-language-option" data-value="ps">Pashto</div>
+                <div class="accessibility-language-option" data-value="fa">Persian</div>
+                <div class="accessibility-language-option" data-value="pl">Polish</div>
+                <div class="accessibility-language-option" data-value="pt">Portuguese</div>
+                <div class="accessibility-language-option" data-value="pa">Punjabi</div>
+                <div class="accessibility-language-option" data-value="ro">Romanian</div>
+                <div class="accessibility-language-option" data-value="ru">Russian</div>
+                <div class="accessibility-language-option" data-value="sm">Samoan</div>
+                <div class="accessibility-language-option" data-value="gd">Scots Gaelic</div>
+                <div class="accessibility-language-option" data-value="sr">Serbian</div>
+                <div class="accessibility-language-option" data-value="st">Sesotho</div>
+                <div class="accessibility-language-option" data-value="sn">Shona</div>
+                <div class="accessibility-language-option" data-value="sd">Sindhi</div>
+                <div class="accessibility-language-option" data-value="si">Sinhala</div>
+                <div class="accessibility-language-option" data-value="sk">Slovak</div>
+                <div class="accessibility-language-option" data-value="sl">Slovenian</div>
+                <div class="accessibility-language-option" data-value="so">Somali</div>
+                <div class="accessibility-language-option" data-value="es">Spanish</div>
+                <div class="accessibility-language-option" data-value="su">Sundanese</div>
+                <div class="accessibility-language-option" data-value="sw">Swahili</div>
+                <div class="accessibility-language-option" data-value="sv">Swedish</div>
+                <div class="accessibility-language-option" data-value="tg">Tajik</div>
+                <div class="accessibility-language-option" data-value="ta">Tamil</div>
+                <div class="accessibility-language-option" data-value="te">Telugu</div>
+                <div class="accessibility-language-option" data-value="th">Thai</div>
+                <div class="accessibility-language-option" data-value="tr">Turkish</div>
+                <div class="accessibility-language-option" data-value="uk">Ukrainian</div>
+                <div class="accessibility-language-option" data-value="ur">Urdu</div>
+                <div class="accessibility-language-option" data-value="uz">Uzbek</div>
+                <div class="accessibility-language-option" data-value="vi">Vietnamese</div>
+                <div class="accessibility-language-option" data-value="cy">Welsh</div>
+                <div class="accessibility-language-option" data-value="xh">Xhosa</div>
+                <div class="accessibility-language-option" data-value="yi">Yiddish</div>
+                <div class="accessibility-language-option" data-value="yo">Yoruba</div>
+                <div class="accessibility-language-option" data-value="zu">Zulu</div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div id="info-section" class="fade-in">
+            <img src="home/work.png" alt="Who We Are Image" id="info-img">
+            <div id="info">
+                <h2 class="lines">Who <span style="color: rgb(0, 105, 0);">We Are</span></h2>
+                <p>
+                    At <b><i>Tejyash Cyber solutions</i></b>, we’re more than just a tech service provider — we’re your
+                    trusted
+                    technology partner.
+                    Our mission is to empower individuals and businesses by delivering smart, secure, and scalable
+                    technology solutions.
+                    <br><br>
+                    From cutting-edge computer and laptop sales to custom website development, remote support, and
+                    digital
+                    marketing, we serve as a one-stop destination for all your IT needs. Whether you're upgrading your
+                    business infrastructure, recovering data, or simply looking to boost your online presence — we've
+                    got
+                    you covered.
+                </p>
+            </div>
+        </div>
+
+        <section class="tcs-about-section fade-in" id="tcs-about-section">
+
+            <div class="tcs-about-text-box">
+                <h1 class="tcs-about-title">What We <span class="tcs-highlight">Do & Who </span> We Are</h1>
+                <h6>Welcome to our TEJYASH CYBER SOLUTIONS</h6>
+                <p>We help businesses and individuals stay secure and efficient with modern technology. Our team
+                    delivers reliable cybersecurity and IT solutions so you can thrive safely in a digital world.</p>
+
+                <p>We are a team of experienced cybersecurity experts and IT consultants dedicated to helping clients
+                    use technology safely and efficiently. With strong expertise in cybersecurity and IT solutions, we
+                    guide businesses to operate securely and effectively.</p>
+
+                <p>Our services cover a wide range of cybersecurity solutions to protect businesses and individuals from
+                    digital threats. We focus on network security, data backup and recovery, virus removal, and digital
+                    forensics to keep your systems safe and resilient.</p>
+
+                <button class="tcs-read-more-btn"
+                    onclick="window.location.href='aboutus.html'">Read
+                    More
+                    <span>➔</span></button>
+            </div>
+
+            <div class="tcs-animated-image">
+                <img src="Home/about-right-dec.793eb0c7327a2ab3f9d8.png" alt="">
+            </div>
+        </section>
+
+
+
+        <section class="bg">
+            <div id="statement" class="fade-in">
+                <h3 style="font-size: 40px;">Amazing <span style="color: rgb(81, 155, 81)">Sevices & Features</span> For
+                    You</h3>
+            </div>
+            <div class="card-container fade-in">
+                <div class="blog-post card">
+                    <div class="card-icon">
+                        <img src="SVG/ComputerSale.f13102ec1716c3138875aad2b48d5725.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Computer & Laptop Sales</h3>
+                    <p>
+                        We have a wide range of computers and laptops available at
+                        discounted prices, with something to suit every budget and need.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/Reparing.5ece42a2463e027be2ca108d9713fb70.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Computer & Laptop Repairing</h3>
+                    <p>
+                        Our team of experienced technicians is here to help diagnose and
+                        repair any issues you may be experiencing with your computer or
+                        laptop.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/Refurbish.9fa85956518d2863ed097176ad00f473.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Refurbish Laptops</h3>
+                    <p>
+                        Refurbished laptops are a great way to get a high-quality device at
+                        a more affordable price. Our refurbished laptops have been carefully
+                        inspected, tested, and restored.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/website.75c6ef1ee40a2db265972a13071eb966.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Website Development</h3>
+                    <p>
+                        We offer a range of website development services, including website
+                        design, development, and maintenance. We provide consultants to understandand meet your needs.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/Support.ff37bda8f550b72fcf823f7f0fd2a672.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Remote Desk Support</h3>
+                    <p>
+                        Our remote desk support service allows our skilled technicians to
+                        connect to your computer or laptop from our office, so we can
+                        diagnose and fix issues.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/AntivirusHover.5ecd40bf0a96190087ea84c630763322.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Virus Removal</h3>
+                    <p>
+                        We understand the frustration and potential harm that viruses can
+                        cause to your computer or laptop. Our team of experienced
+                        technicians is here to help you quickly and effectively remove any
+                        viruses from your device.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/NetworkingHover.5eb55fa4f479f221f99d409eb1b9b792.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Networking</h3>
+                    <p>
+                        Our networking service is designed to help you connect all of your
+                        devices and systems, so you can work efficiently and effectively. We
+                        offer a range of networking services, installation,
+                        configuration, and maintenance.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/cctvHover.88d4443b7d38c7613afb26da8cfe07c0.svg" alt="" width="80px" />
+                    </div>
+                    <h3>CCTV Installation & Service</h3>
+                    <p>
+                        CCTV installation service is designed to help you secure your
+                        property and assets, by installing high-quality, reliable CCTV
+                        cameras and systems.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/DataBackupHover.def473941f8f3177c87620f371316c7f.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Data Backup & Recovery</h3>
+                    <p>
+                        Our data backup and recovery service is designed to help you protect
+                        your valuable data, and recover it in the event of data loss or
+                        corruption.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/DigitalMarketingHover.5c41bbdd625f87e982702d1ec18cbe0c.svg" alt="" width="80px" />
+                    </div>
+                    <h3>Digital marketing</h3>
+                    <p>
+                        We provide digital marketing services such as SEO, social media, and content marketing. Our team
+                        will help you create a marketing plan tailored to your business goals and budget.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <img src="SVG/consultingHover.0b7fc50ccd5621c108b7ae8bec54630e.svg" alt="" width="80px" />
+                    </div>
+                    <h3>IT Consultation</h3>
+                    <p>
+                        Our team of experienced IT consultants will work with you to assess
+                        your current technology infrastructure and processes, identify areas
+                        for improvement and provide solutions that meet your
+                        specific needs and goals.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!--Live stats Section-->
+        <section class="stats-section fade-in">
+            <div class="stats-title">Our <span>Impact in Numbers</span></div>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <i class="fas fa-tools stat-icon"></i>
+                    <div class="stat-number" data-target="1500">0</div>
+                    <div class="stat-label">Repairs Completed</div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-smile stat-icon"></i>
+                    <div class="stat-number" data-target="1200">0</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-clock stat-icon"></i>
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">Years of Experience</div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-award stat-icon"></i>
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">Projects Delivered</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========== Automatic Moving Carousel ============ -->
+
+        <div class="bg1 fade-in">
+            <div class="happy-customers-section">
+                <div class="anonymous">
+                    <h2>Our <span style="color: rgb(81, 155, 81);">Happy Customers</span></h2>
+                </div>
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <div class="card1">
+                            <div class="avatar"><a href="https://sundexindia.com/" target="_blank"><img
+                                        src="Home/sundex.jpg" alt="Sundex" height="160px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://www.harishengineers.com/" target="_blank"><img
+                                        src="Home/harish.jpg" alt="Harish Engineers" height="140px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="http://www.hipointservices.com/" target="_blank"><img
+                                        src="Home/Hi Point.jpg" alt="Hi Point" height="160px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://www.ptcindia.com/" target="_blank"><img
+                                        src="Home/images.jpg" alt="PTC India" height="160px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://ipgl.co.in/" target="_blank"><img
+                                        src="Home/India port.jpg" alt="India Port" width="310px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://vijaycotton.com/" target="_blank"><img
+                                        src="Home/Cotton.png" alt="Vijay Cotton" height="160px"
+                                        style="background-color: white;"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://harshadmore.in/" target="_blank"><img
+                                        src="Home/Harshad.png" alt="Harshad" height="140px" width="150px"
+                                        style="background-color: white;"></a></div>
+                        </div>
+                        <!-- Duplicate cards for infinite loop effect -->
+                        <div class="card1">
+                            <div class="avatar"><a href="https://sundexindia.com/" target="_blank"><img
+                                        src="Home/sundex.jpg" alt="Sundex" height="160px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://www.harishengineers.com/" target="_blank"><img
+                                        src="Home/harish.jpg" alt="Harish Engineers" height="140px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="http://www.hipointservices.com/" target="_blank"><img
+                                        src="Home/Hi Point.jpg" alt="Hi Point" height="160px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://www.ptcindia.com/" target="_blank"><img
+                                        src="Home/images.jpg" alt="PTC India" height="160px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://ipgl.co.in/" target="_blank"><img
+                                        src="Home/India port.jpg" alt="India Port" width="310px"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://vijaycotton.com/" target="_blank"><img
+                                        src="Home/Cotton.png" alt="Vijay Cotton" height="160px"
+                                        style="background-color: white;"></a></div>
+                        </div>
+                        <div class="card1">
+                            <div class="avatar"><a href="https://harshadmore.in/" target="_blank"><img
+                                        src="Home/Harshad.png" alt="Harshad" height="140px" width="150px"
+                                        style="background-color: white;"></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========== QNA ============ -->
+        <section id="faq" class="fade-in">
+            <h2 tabindex="0">Frequently <span style="color: #059669;">Asked Questions</span></h2>
+
+            <div class="faq-container">
+                <!-- FAQ 1 -->
+                <details class="faq-item">
+                    <summary tabindex="0">
+                        Will the repair be done at my home?
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <p class="faq-answer" tabindex="0">
+                        Minor issues like software installations, part replacement can be done at home. For major
+                        repairs
+                        involving heavy equipment and work we pickup your Laptop or PC.
+                    </p>
+                </details>
+
+                <!-- FAQ 2 -->
+                <details class="faq-item">
+                    <summary tabindex="0">
+                        Is my Laptop safe with you after pick up?
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <p class="faq-answer" tabindex="0">
+                        We take utmost care of your Laptop, ensuring no damages are done and no data is lost. Whatever
+                        is
+                        picked up for a repair will be mentioned in our pickup challan.
+                    </p>
+                </details>
+
+                <!-- FAQ 3 -->
+                <details class="faq-item">
+                    <summary tabindex="0">
+                        Will I get a warranty on service?
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <p class="faq-answer" tabindex="0">
+                        Yes. We give a 30-day service warranty plus the product warranty depending upon the product.
+                    </p>
+                </details>
+
+                <!-- FAQ 4 -->
+                <details class="faq-item">
+                    <summary tabindex="0">
+                        What if I only need an inspection?
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <p class="faq-answer" tabindex="0">
+                        Our technician will inspect and provide you with details and a quotation. If no other service is
+                        availed, we charge INR 350 only.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <section class="blog-section fade-in">
+            <h1>Latest <span style="color: #059669;">Blog Posts</span></h1>
+            <div class="blog-posts card-container"></div>
+        </section>
+
+        <!-- =========== Review Card ============ -->
+        <section class="reviews-section fade-in">
+            <div class="reviews-title">Customer <span style="color: #059669;">Reviews</span></div>
+            <div class="divider"></div>
+            <div class="review-box">
+                <div id="r-slide">
+                    <div class="r-card">
+                        <div class="review-info">
+                            <div>
+                                <h3>Rushikesh Pandit</h3>
+                                <p>Hardware Devices
+                                <p>
+                            </div>
+                            <div class="review-rating">
+                                <span class="stars">★★★★★</span>
+                            </div>
+                        </div>
+                        <p>TejYash Cyber solutions is one of the best company for cyber solutions in Mumbai area. Mr.
+                            Tejas is very
+                            prompt about their services. They have given me best services for my company's hardware and
+                            software issues.
+                            Thank you Mr. Tejas for your excellent and prompt services. Also thank you for your
+                            suggestions in
+                            purchasing the best hardware devices for my company.
+                        </p>
+                    </div>
+                    <div class="r-card">
+                        <div class="review-info">
+                            <div>
+                                <h3>Huma Khan</h3>
+                                <p>Laptop Repairing
+                                <p>
+                            </div>
+                            <div class="review-rating">
+                                <span class="stars">★★★★☆</span>
+                            </div>
+                        </div>
+                        <p>Well!! It was wonderfull experience with tejas Infocom and He did repair my laptop which
+                            i was thinking will never work..He did a great Job by giving his genuine customer service
+                            and I would really recommend Tejyas Infocom for any laptop related issues. Thank you😊.
+                        </p>
+                    </div>
+                    <div class="r-card">
+                        <div class="review-info">
+                            <div>
+                                <h3>Aman Wallia</h3>
+                                <p>Laptop Repairing
+                                <p>
+                            </div>
+                            <div class="review-rating">
+                                <span class="stars">★★★★★</span>
+                            </div>
+                        </div>
+                        <p>The best place to attend to your IT requirements.
+                            Tejas is extremely knowledgeable and an expert in his field...!!
+                        </p>
+                    </div>
+                    <div class="r-card">
+                        <div class="review-info">
+                            <div>
+                                <h3>Pratiksha Murukate</h3>
+                                <p>Laptop Repairing
+                                <p>
+                            </div>
+                            <div class="review-rating">
+                                <span class="stars">★★★★☆</span>
+                            </div>
+                        </div>
+                        <p>Laptop is working very nice....Genuineness in work...thank you 😊👍.
+                        </p>
+                    </div>
+                    <div class="r-card">
+                        <div class="review-info">
+                            <div>
+                                <h3>Raj Barsing</h3>
+                                <p>Software Solution
+                                <p>
+                            </div>
+                            <div class="review-rating">
+                                <span class="stars">★★★★☆</span>
+                            </div>
+                        </div>
+                        <p>My laptop had a software issue that stopped the battery from charging. Other shops told me
+                            the battery was
+                            dead and quoted ₹4k–₹5k. But at Tejyash, they fixed the issue in 5 minutes and didn’t even
+                            charge me. Truly
+                            honest and helpful — highly recommended! 🙌
+                        </p>
+                    </div>
+                </div>
+                <div class="slidebar">
+                    <img src="Home/7e472b4d-5bc4-477b-828d-2e3b4173ab50.jpg" id="upArrow">
+                    <img src="Home/22e21320-a9ea-49b4-83cf-d8c6d56f9385.jpg" id="downArrow">
+                </div>
+            </div>
+            </div>
+            <button onclick="openReviewModal()" class="btn">Add Review</button>
+        </section>
+
+        <div class="modal" id="reviewModal">
+            <div class="modal-content">
+                <h3>Write a Review</h3>
+                <input type="text" id="reviewerName" placeholder="Your Name" class="textarea">
+                <input type="text" id="reviewService" placeholder="Service Title (e.g., Laptop Repairing)" class="textarea">
+                <!-- Hidden legacy select kept for backward compatibility -->
+                <select id="reviewRating" class="textarea" style="display:none">
+                    <option value="★★★★★">★★★★★</option>
+                    <option value="★★★★☆">★★★★☆</option>
+                    <option value="★★★☆☆">★★★☆☆</option>
+                    <option value="★★☆☆☆">★★☆☆☆</option>
+                    <option value="★☆☆☆☆">★☆☆☆☆</option>
+                </select>
+                <div class="rating" id="interactiveRating" aria-label="Rating" role="radiogroup">
+                    <button type="button" class="modal-star" data-value="1" aria-label="1 star" role="radio" aria-checked="false">★</button>
+                    <button type="button" class="modal-star" data-value="2" aria-label="2 stars" role="radio" aria-checked="false">★</button>
+                    <button type="button" class="modal-star" data-value="3" aria-label="3 stars" role="radio" aria-checked="false">★</button>
+                    <button type="button" class="modal-star" data-value="4" aria-label="4 stars" role="radio" aria-checked="false">★</button>
+                    <button type="button" class="modal-star" data-value="5" aria-label="5 stars" role="radio" aria-checked="false">★</button>
+                    <span class="rating-label" id="ratingLabel">Choose rating</span>
+                </div>
+                <div class="textarea-wrapper">
+                    <textarea id="reviewInput" class="textarea" rows="4" placeholder="Write your review..." maxlength="300"></textarea>
+                    <div class="char-counter" id="reviewCounter">0/300</div>
+                </div>
+                <div class="modal-buttons">
+                    <button onclick="closeReviewModal()" class="btn" style="background:#aaa">Cancel</button>
+                    <button onclick="submitReview()" class="btn">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="thankYouModal">
+            <div class="modal-content" style="text-align:center;">
+                <h3>Thank you for your review!</h3>
+                <p>We've copied your review. Please click below to share it on Google.</p>
+                <br>
+                <br>
+                <div>
+                    <a href="https://search.google.com/local/writereview?placeid=ChIJyzcm87TP5zsRmFrZyXDEP7s"
+                        target="_blank" class="new-btn">Post on Google</a>
+                </div>
+                <div class="close-link" onclick="closeThankYouModal()">Close</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- =========== Footer ============ -->
+
+    <footer class="custom-footer-container">
+        <div class="custom-footer-content">
+            <div class="custom-footer-social">Follow us on</div>
+
+            <div class="custom-social-icons">
+                <a href="https://www.facebook.com/people/Tejas-Relekar/pfbid0MjZez9ArNDpYPo3cdmBAQywMafrKrbVAVbAG2hpzpzbE3TYh6g4JbEhR33zyui8Gl/"
+                    target="_blank" class="custom-social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/tejyashcybersolutions/" target="_blank"
+                    class="custom-social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:tejyashcybersoltuion@gmail.com" class="custom-social-icon mail"><i
+                        class="fas fa-envelope"></i></a>
+            </div>
+
+            <div class="custom-footer-links">
+                <a href="index.html" class="custom-footer-link">Home</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="booking.html" class="custom-footer-link">Book Services</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="#tcs-about-section" class="custom-footer-link">About us</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="#faq" class="custom-footer-link">FAQ</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="teams.html" class="custom-footer-link">Team</a>
+                <a href="#" class="custom-footer-link" style="color: white;">|</a>
+                <a href="contactus.html" class="custom-footer-link">Contact us</a>
+            </div>
+
+            <div class="custom-footer-copyright">
+                Copyright © 2023 TEJYASH CYBER SOLUTIONS Company. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div id="accessibility-popup" class="hidden">
+        <div class="popup-content">
+            <button id="close-popup">❌</button>
+            <p>🧑‍🦯 This website includes accessibility features:</p>
+            <ul>
+                <li>🤖 Ai Chatbot for Quick Support</li>
+                <li>🎤 Voice Control Mode (Alt + V)</li>
+                <li>📖 Hover/Tap to Speak (Alt + S)</li>
+                <li>🎨 Color-blind Mode (Toggle button)</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <!-- ============= Script ================ -->
+
+    <script src="JS/fade.js"></script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        function toggleMenu(x) {
+            x.classList.toggle("change");
+            document.getElementById("nav-list").classList.toggle("show");
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('languageSearch');
+            const languageOptions = document.querySelectorAll('.accessibility-language-option');
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+
+                languageOptions.forEach(option => {
+                    const languageName = option.textContent.toLowerCase();
+                    if (languageName.includes(searchTerm)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- =========== gear ============ -->
+
+    <script src="JS/gear.js"></script>
+
+    <!-- =========== language ============ -->
+
+    <script src="JS/language-selector.js"></script>
+
+    <!-- =========== Review ============ -->
+
+    <script src="JS/reviewfront.js"></script>
+
+    <!-- =========== Booking card ============ -->
+
+    <script src="JS/bookingselect.js"></script>
+
+
+
+    <!-- =========== Pop-up ============  -->
+
+    <script src="JS/popup.js"></script>
+
+    <script src="JS/pop-up2.js"></script>
+
+    <!-- =========== Chatbot ============ -->
+
+    <script defer src="JS/chatbot.js"></script>
+
+    <!-- =========== Calculator ============ -->
+
+    <script src="JS/calculator.js"></script>
+
+    <!-- =========== Voice control ============-->
+
+    <script src="JS/voicecontrol.js"></script>
+
+    <!-- =========== impact numbers ============ -->
+
+    <script src="JS/impact.js"></script>
+    <script src="JS/blogs.js"></script>
+
+    <!-- =========== navbar for mobile shrink ============ -->
+
+    <script src="JS/mobile.js"></script>
+
+    <!-- =========== hover to speak ============ -->
+
+    <script src="JS/hovertospeak.js"></script>
+
+    <!-- =========== color blind mode ============ -->
+
+    <script src="JS/colorblind.js"></script>
+    <script src="JS/particles.js"></script>
+</body>
+
+</html>
